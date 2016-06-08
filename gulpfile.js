@@ -8,7 +8,9 @@ const ignore = require('gulp-ignore');
 gulp.task('nightwatch', () => {
   gulp.src('')
     .pipe(plumber())
-    .pipe(nightwatch());
+    .pipe(nightwatch({
+      configFile: 'nightwatch.conf.js'
+    }));
 });
 
 gulp.task('nightwatch:w', ['nightwatch'], () => {

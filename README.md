@@ -2,13 +2,12 @@
 
 ---
 
+First of all, make sure that your PC has been installed Java runtime to run Selenium server.
+
 ###Setup
 ```
 $ npm install
 ```
-
-###Modify nightwatch.json
-Make sure the selenium-server(*.jar) path and the phantomjs path to fit your environment.
 
 ###Run (must be done before Test)
 ```
@@ -20,7 +19,7 @@ $ npm start
 $ npm test
 ```
 
-###Test individually
+###Test (individually)
 ```
 $ npm run nightwatch
 or

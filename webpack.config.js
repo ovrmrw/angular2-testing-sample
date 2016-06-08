@@ -44,6 +44,7 @@ module.exports = [
           test: /\.ts$/,
           exclude: [/node_modules/],
           loader: 'babel-loader?presets[]=es2015&plugins[]=babel-plugin-espower!ts-loader', // babel-loaderがbabel-plugin-espowerを読み込む必要がある。
+          // loader: 'babel-loader!ts-loader', // babel-loaderがbabel-plugin-espowerを読み込む必要がある。
         },
         {
           test: /\.json$/,

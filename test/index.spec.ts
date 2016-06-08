@@ -3,19 +3,20 @@
 
 
 // es6 shim
-import "core-js/shim";
+import 'core-js/shim';
 import 'babel-polyfill';
 
 // ng2 deps
 import "zone.js/dist/zone";
-import "zone.js/dist/long-stack-trace-zone";
+// import "zone.js/dist/long-stack-trace-zone";
 import "zone.js/dist/async-test";
-import 'rxjs/Rx';
+// import 'rxjs/Rx';
 
 import {
   setBaseTestProviders,
   resetBaseTestProviders,
-} from "angular2-testing-lite/core";
+// } from "angular2-testing-lite/core";
+} from '@angular/core/testing';
 
 import {
   BROWSER_APP_DYNAMIC_PROVIDERS
