@@ -8,8 +8,8 @@
   "suppressTaskName": true,
   "tasks": [
     {
-      "taskName": "backgrounder",
-      "args": ["run", "bg"]
+      "taskName": "start",
+      "args": ["run", "start"]
     }
   ]
 }

@@ -6,15 +6,15 @@
   "scripts": {
     "postinstall": "typings install && webdriver-manager update",
     "prestart": "npm run build",
-    "start": "concurrently \"lite-server\" \"npm run karma\" ",
+    "start": "npm run bg",
     "build:client": "webpack",
     "build:client:w": "webpack --watch",
     "build": "npm run build:client",
     "tslint": "tslint -c tslint.json app/**/*.ts",
-    "karma": "karma start",    
+    "karma": "karma start",
     "protractor": "protractor protractor.conf.js",
     "nightwatch": "nightwatch",
-    "test": "npm run karma",
+    "test": "concurrently \"npm run karma\" \"npm run nightwatch\" ",
     "wd": "webdriver-manager start",
     "bg": "concurrently \"npm run wd\" \"npm run build:client:w\" \"lite-server\" "
   },

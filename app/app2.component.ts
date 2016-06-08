@@ -5,7 +5,7 @@ import {Component, OnInit} from '@angular/core';
   selector: 'my-app2',
   template: `
     <ul>
-      <li *ngFor="let text of texts">{{text}}</li>
+      <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
     </ul>
   `
 })

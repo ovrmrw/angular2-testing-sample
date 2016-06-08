@@ -4,6 +4,7 @@
 
 // es6 shim
 import "core-js/shim";
+import 'babel-polyfill';
 
 // ng2 deps
 import 'rxjs/Rx';

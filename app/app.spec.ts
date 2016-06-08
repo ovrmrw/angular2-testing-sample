@@ -25,12 +25,13 @@ describe('AppComponent', () => {
       });
   }));
 
-  it("should has text: 'My First Angular 2 App'", async(() => {
-    builder.createAsync(AppComponent)
-      .then(fixture => {
-        let el = fixture.debugElement;
-        assert(el.query(By.css("h1")).nativeElement.innerHTML === "My First Angular 2 App");
-      });
+  it("should has text: 'My First Angular 2 App'", inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    return tcb.createAsync(AppComponent).then(fixture => {
+      const el = fixture.nativeElement;
+      fixture.detectChanges();
+      assert(el.querySelectorAll('h1').length === 1);
+      assert(el.querySelector('h1').innerHTML === "My First Angular 2 App");
+    });
   }));
 
   it("should has text: 'My Test'", async(() => {
@@ -41,9 +42,9 @@ describe('AppComponent', () => {
       });
   }));
 
-  it("should fail", async(() => {
+  it("should equal", async(() => {
     let app = new AppComponent();
     let num = app.getNumber();
-    assert(num === 101);
+    assert(num === 100);
   }));
 });
