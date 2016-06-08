@@ -7,10 +7,10 @@ import "core-js/shim";
 import 'babel-polyfill';
 
 // ng2 deps
-import 'rxjs/Rx';
 import "zone.js/dist/zone";
 import "zone.js/dist/long-stack-trace-zone";
 import "zone.js/dist/async-test";
+import 'rxjs/Rx';
 
 import {
   setBaseTestProviders,

@@ -7,18 +7,22 @@
 $ npm install
 ```
 
-###Run (before Test)
+###Modify nightwatch.json
+Make sure the selenium-server(*.jar) path and the phantomjs path to fit your environment.
+
+###Run (must be done before Test)
 ```
 $ npm start
 ```
 
-###Test (after Run)
+###Test (unit test and e2e test simultaneously)
 ```
 $ npm test
 ```
 
-###Test individualy (after Run)
+###Test individually
 ```
 $ npm run nightwatch
+or
 $ npm run karma
 ```

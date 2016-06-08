@@ -28,7 +28,7 @@ module.exports = [
     devtool: 'source-map', // output source map
   },
   {
-    entry: ['./test/unit.spec.ts'],
+    entry: ['./test/index.spec.ts'],
     output: {
       filename: './bundles/webpack.bundle.spec.espowered.js'
     },

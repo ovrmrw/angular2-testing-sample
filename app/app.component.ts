@@ -12,7 +12,7 @@ import {AppComponent2} from './app2.component'; // async/await sample.
   directives: [AppComponent2]
 })
 export class AppComponent {
-  title:string = 'My First Angular 2 App';
+  title: string = 'My First Angular 2 App';
 
   getNumber() {
     return 100;

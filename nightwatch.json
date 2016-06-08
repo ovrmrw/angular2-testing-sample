@@ -8,8 +8,8 @@
   "page_objects_path": "",
   "globals_path": "",
   "selenium": {
-    "start_process": false,
-    "server_path": "",
+    "start_process": true,
+    "server_path": "node_modules/selenium-standalone/.selenium/selenium-server/2.53.0-server.jar",
     "log_path": "",
     "host": "127.0.0.1",
     "port": 4444,

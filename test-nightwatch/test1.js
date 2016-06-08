@@ -1,8 +1,5 @@
-// require("core-js/shim");
-
 module.exports = {
   'Test my page': function (client) {
-    require("core-js/shim");
     client
       .url('http://localhost:3000')
       .waitForElementVisible('body', 1000)
@@ -19,7 +16,7 @@ module.exports = {
       .assert.containsText('my-app h1', 'Angular 2')
       .waitForElementVisible('my-app2 ul #text0', 1000)
       .assert.containsText('my-app2 ul #text0', 'start async')
-      .waitForElementVisible('my-app2 ul #text2', 1000)
+      .waitForElementVisible('my-app2 ul #text2', 5000)
       .assert.containsText('my-app2 ul #text2', 'end async')
       .end();
   }
