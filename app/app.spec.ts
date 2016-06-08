@@ -5,12 +5,12 @@ import { AppComponent } from './app.component';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-// import {inject, async, TestComponentBuilder} from 'angular2-testing-lite/core';
-// import {describe, it, xit, beforeEach, beforeEachProviders} from 'angular2-testing-lite/mocha';
+import {inject, async, TestComponentBuilder} from 'angular2-testing-lite/core';
+import {describe, it, xit, beforeEach, beforeEachProviders} from 'angular2-testing-lite/mocha';
 // import chai from 'chai';
 // const expect = chai.expect;
-import { beforeEachProviders, describe, expect, it, async, inject, beforeEach, injectAsync } from '@angular/core/testing';
-import { TestComponentBuilder} from '@angular/compiler/testing';
+// import { beforeEachProviders, describe, expect, it, async, inject, beforeEach, injectAsync } from '@angular/core/testing';
+// import { TestComponentBuilder} from '@angular/compiler/testing';
 import { By } from "@angular/platform-browser";
 
 // テストの書き方とかよく知らないので中身は適当です。
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
 
   beforeEachProviders(() => [TestComponentBuilder]);
 
-  beforeEach(injectAsync([TestComponentBuilder], _tcb => {
+  beforeEach(inject([TestComponentBuilder], _tcb => {
     tcb = _tcb;
   }));
 
