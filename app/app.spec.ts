@@ -5,12 +5,12 @@ import { AppComponent } from './app.component';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import {inject, async, TestComponentBuilder} from 'angular2-testing-lite/core';
-import {describe, it, xit, beforeEach, beforeEachProviders} from 'angular2-testing-lite/mocha';
+// import {inject, async, TestComponentBuilder} from 'angular2-testing-lite/core';
+// import {describe, it, xit, beforeEach, beforeEachProviders} from 'angular2-testing-lite/mocha';
 // import chai from 'chai';
 // const expect = chai.expect;
-// import { beforeEachProviders, describe, expect, it, async, inject, beforeEach, injectAsync } from '@angular/core/testing';
-// import { TestComponentBuilder} from '@angular/compiler/testing';
+import { beforeEachProviders, describe, it, expect, async, inject, beforeEach, injectAsync } from '@angular/core/testing';
+import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 import { By } from "@angular/platform-browser";
 
 // テストの書き方とかよく知らないので中身は適当です。
@@ -19,7 +19,7 @@ describe('AppComponent', () => {
 
   beforeEachProviders(() => [TestComponentBuilder]);
 
-  beforeEach(inject([TestComponentBuilder], _tcb => {
+  beforeEach(injectAsync([TestComponentBuilder], _tcb => {
     tcb = _tcb;
   }));
 
@@ -30,29 +30,27 @@ describe('AppComponent', () => {
     });
   });
 
-  it("should has text: 'My First Angular 2 App'", done => {
+  it("should has text: 'My First Angular 2 App'", async(() => {
     tcb.createAsync(AppComponent).then(fixture => {
       const el = fixture.debugElement;
       assert(el.query(By.css('h1')).nativeElement.innerHTML === '');
       fixture.detectChanges();
       assert(el.query(By.css('h1')).nativeElement.innerHTML === 'My First Angular 2 App');
-      done();
     });
-  });
+  }));
 
-  it("should has text: 'My Test'", done => {
+  it("should has text: 'My Test'", async(() => {
     tcb.createAsync(AppComponent).then(fixture => {
       let el = fixture.debugElement;
       const text = el.query(By.css("p")).nativeElement.innerHTML;
-      assert(text === "My Test");
-      done();
+      // assert(text === "My Test1");
+      expect(text).toBe('My Test1');
     });
-  });
+  }));
 
-  it("should equal", done => {
+  it("should equal", async(() => {
     let app = new AppComponent();
     let num = app.getNumber();
     assert(num === 100);
-    done();
-  });
+  }));
 });
