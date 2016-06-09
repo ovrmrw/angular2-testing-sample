@@ -24,13 +24,13 @@ describe('Page1Component test', () => {
       });
   }));
 
-  it("should has text: 'page1 content'", async(() => {
+  it("should has text: 'page1 content.'", async(() => {
     page1ComponentFix
       .then(fixture => {
         const el = fixture.debugElement;
         assert(el.query(By.css('h4')).nativeElement.innerHTML === '');
         fixture.detectChanges();
-        assert(el.query(By.css('h4')).nativeElement.innerHTML === 'page1 content');
+        assert(el.query(By.css('h4')).nativeElement.innerHTML === 'page1 content.');
       });
   }));
 
