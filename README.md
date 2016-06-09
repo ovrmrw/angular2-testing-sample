@@ -21,7 +21,8 @@ $ npm test
 
 ###Test (individually)
 ```
-$ npm run nightwatch
-or
 $ npm run karma
+or
+$ npm run nightwatch
 ```
+"karma" for unit test. "nightwatch" for e2e test.

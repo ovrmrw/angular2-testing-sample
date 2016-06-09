@@ -1,23 +1,23 @@
+const waitMax = 5000;
+
 module.exports = {
-  'Test my page': function (client) {
+  'Nightwatch test 1': function (client) {
     client
       .url('http://localhost:3000')
-      .waitForElementVisible('body', 1000)
+      .waitForElementVisible('body', waitMax)
       .assert.title('Angular 2 QuickStart')
-      .pause(1000)
+      // .pause(1000)
       // .assert.visible()
       // .assert.visible('input[type=text]')
       // .setValue('input[type=text]', 'rembrandt van rijn')
-      .waitForElementVisible('my-app h1', 1000)
+      .waitForElementVisible('my-app h3', waitMax)
+      .assert.containsText('my-app h3', 'top component')
       // .click('input[name=btnK]')
       // .pause(1000)
       // .assert.containsText('ol#rso li:first-child',
-      //   'Rembrandt van Rijn - Wikipedia')
-      .assert.containsText('my-app h1', 'Angular 2')
-      .waitForElementVisible('my-app2 ul #text0', 1000)
-      .assert.containsText('my-app2 ul #text0', 'start async')
-      .waitForElementVisible('my-app2 ul #text2', 5000)
-      .assert.containsText('my-app2 ul #text2', 'end async')
+      //   'Rembrandt van Rijn - Wikipedia')      
+      .waitForElementVisible('sg-page1 h4', waitMax)
+      .assert.containsText('sg-page1 h4', 'page1 content')
       .end();
   }
 };

@@ -1,25 +1,30 @@
-import {Component, OnInit} from '@angular/core';
-
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 
 @Component({
-  selector: 'my-app2',
+  selector: 'sg-page1',
   template: `
+    <h4>{{content}}</h4>
     <ul>
       <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
     </ul>
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AppComponent2 implements OnInit {
+export class Page1Component implements OnInit {
+  content: string = 'page1 content';
   texts: string[] = [];
+
+  constructor(private cd: ChangeDetectorRef) { }
 
   ngOnInit() {
     (async () => {
       this.texts.push('start async');
-
+      
       await new Promise(resolve => {
         setTimeout(() => {
           this.texts.push('this message should be shown between "start" and "end".');
           resolve();
+          this.cd.markForCheck();
         }, 2000);
       });
 
