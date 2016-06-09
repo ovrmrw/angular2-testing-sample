@@ -14,5 +14,5 @@ gulp.task('nightwatch', () => {
 });
 
 gulp.task('nightwatch:w', ['nightwatch'], () => {
-  gulp.watch(['{./,}bundles/**/*.js', '{./,}test-nightwatch/**/*.js'], ['nightwatch']);
+  gulp.watch(['{./,}bundles/**/*.js', '{./,}test-{e2e,nightwatch}/**/*.js'], ['nightwatch']);
 });
