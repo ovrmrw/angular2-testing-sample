@@ -11,6 +11,8 @@ import { Page1Service } from './page1.service';
     </ul>
     <h2>{{counter$ | async}}</h2>
     <button (click)="increment()" name="increment">Increment</button>
+    <hr />
+    <!-- <div>{{timeNow$ | async | date:'medium'}}</div> これを表示させるとe2eテストがエラーになる。謎。 -->
   `,
   providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -49,4 +51,6 @@ export class Page1Component implements OnInit {
   }
 
   get counter$() { return this.service.counter$; }
+
+  get timeNow$() { return this.service.timeNow$; }
 }

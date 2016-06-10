@@ -17,6 +17,7 @@ module.exports = {
 
       // ボタンクリックでテキストが変わる。
       .click('sg-page1 button[name="change"]', function () {
+        // this.pause(1000);
         this.assert.containsText('sg-page1 h4', 'page1 content changed.')
       })
 
