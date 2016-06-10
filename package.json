@@ -5,16 +5,17 @@
   "main": "index.js",
   "scripts": {
     "postinstall": "typings install",
-    "prestart": "npm run build",
-    "start": "npm run bg",
-    "bg": "concurrently \"npm run build:client:w\" \"lite-server\" ",
     "build:client": "webpack",
     "build:client:w": "webpack --watch",
     "build": "npm run build:client",
+    "prestart": "npm run build",
+    "start": "concurrently -k \"npm run build:client:w\" \"lite-server\" ", 
     "tslint": "tslint -c tslint.json src*/**/*.ts",
-    "karma": "karma start",
-    "nightwatch": "gulp nightwatch:w",
-    "test": "concurrently \"npm run karma\" \"npm run nightwatch\" "
+    "karma": "karma start --single-run",
+    "karma:w": "karma start",
+    "nightwatch": "gulp nightwatch",
+    "nightwatch:w": "gulp nightwatch:w",
+    "test": "concurrently -k \"npm run karma:w\" \"npm run nightwatch:w\" "
   },
   "repository": {
     "type": "git",

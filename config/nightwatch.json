@@ -22,7 +22,7 @@
   "parallel_process_delay": 10,
   "test_workers": {
     "enabled": true,
-    "workers": 2
+    "workers": "auto"
   },
   "test_settings": {
     "default": {
