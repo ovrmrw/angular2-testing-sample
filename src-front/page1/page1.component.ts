@@ -18,7 +18,6 @@ import { Page1Service } from './page1.service';
 export class Page1Component implements OnInit {
   content: string = 'page1 content.';
   texts: string[] = [];
-  counter: number = 0;
 
   constructor(
     private service: Page1Service,

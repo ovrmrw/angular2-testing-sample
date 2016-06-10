@@ -5,14 +5,14 @@ import { Page1Component } from './page1.component';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, it, xit, expect, async, beforeEach, injectAsync } from '@angular/core/testing';
+import { describe, it, xit, expect, async, beforeEach, inject, injectAsync, fakeAsync } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 
 
 describe('Page1Component test', () => {
   let page1ComponentFix: Promise<ComponentFixture<Page1Component>>;
 
-  beforeEach(injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+  beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     page1ComponentFix = tcb.createAsync(Page1Component);
   }));
 
@@ -43,7 +43,7 @@ describe('Page1Component test', () => {
       });
   }));
 
-  it('counter should be incremented correctly', async(() => {
+  it('counter should be incremented correctly', fakeAsync(() => { // asyncではなくfakeAsyncじゃないとエラー。
     page1ComponentFix
       .then(fixture => {
         const instance = fixture.componentRef.instance;

@@ -73,7 +73,8 @@ module.exports = function (config) {
       colors: {
         success: 'white'
       },
-      output: 'autowatch'
+      // output: 'autowatch',
+      divider: '/'
     },
   })
 }

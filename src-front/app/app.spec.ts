@@ -12,7 +12,7 @@ import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testin
 describe('AppComponent test', () => {
   let appComponentFix: Promise<ComponentFixture<AppComponent>>;
 
-  beforeEach(injectAsync([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+  beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
     appComponentFix = tcb.createAsync(AppComponent);
   }));
 
