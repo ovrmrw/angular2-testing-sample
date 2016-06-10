@@ -1,3 +1,4 @@
+'use strict';
 // Karma configuration
 // Generated on Fri Mar 25 2016 00:06:13 GMT+0900 (JST)
 
@@ -70,8 +71,9 @@ module.exports = function (config) {
 
     mochaReporter: {
       colors: {
-        success: 'white',
-      }
+        success: 'white'
+      },
+      output: 'autowatch'
     },
   })
 }

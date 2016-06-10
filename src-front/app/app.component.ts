@@ -3,7 +3,7 @@ import { Page1Component } from '../page1/page1.component';
 
 
 @Component({
-  selector: 'my-app',
+  selector: 'sg-app',
   template: `
     <h3>{{title}}</h3>
     <nav>

@@ -42,7 +42,7 @@ export class Page1Component implements OnInit {
   }
 
   changeContent() {
-    this.content = "page1 content changed.";
+    this.content = 'page1 content changed.';
   }
 
   increment() {

@@ -21,5 +21,5 @@ export class Page1Service {
     this.state$.next(value);
   }
 
-  get counter$() { return this._counter$ as Observable<number> }
+  get counter$() { return this._counter$ as Observable<number>; }
 }

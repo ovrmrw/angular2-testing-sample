@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 import assert from 'power-assert';
 import { describe, it, expect, async, beforeEach, beforeEachProviders, inject, injectAsync } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
-import { By } from "@angular/platform-browser";
 
 
 describe('AppComponent test', () => {
@@ -17,31 +16,31 @@ describe('AppComponent test', () => {
     appComponentFix = tcb.createAsync(AppComponent);
   }));
 
-  it("can create", async(() => {
+  it('can create', async(() => {
     appComponentFix
       .then(fixture => {
         assert(!!fixture);
       });
   }));
 
-  it("should have text: 'top component'", async(() => {
+  it('should have text: "top component"', async(() => {
     appComponentFix
       .then(fixture => {
-        const el = fixture.debugElement;
-        assert(el.query(By.css('h3')).nativeElement.innerHTML === '');
+        const el = fixture.nativeElement as HTMLDocument;
+        assert(el.querySelector('h3').innerHTML === '');
         fixture.detectChanges();
-        assert(el.query(By.css('h3')).nativeElement.innerHTML === 'top component');
+        assert(el.querySelector('h3').innerHTML === 'top component');
       });
   }));
 
-  it("title should be changed", async(() => {
+  it('title should be changed', async(() => {
     appComponentFix
       .then(fixture => {
         const instance = fixture.componentRef.instance;
-        const el = fixture.debugElement;
+        const el = fixture.nativeElement as HTMLDocument;
         instance.title = 'changed';
         fixture.detectChanges();
-        assert(el.query(By.css('h3')).nativeElement.innerHTML === 'changed');
+        assert(el.querySelector('h3').innerHTML === 'changed');
       });
   }));
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 const jar = require('selenium-server-standalone-jar');
 const phantomjs = require('phantomjs-prebuilt');
 
