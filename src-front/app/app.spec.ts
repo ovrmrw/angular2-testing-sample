@@ -5,7 +5,7 @@ import { AppComponent } from './app.component';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, it, expect, async, beforeEach, injectAsync } from '@angular/core/testing';
+import { describe, it, expect, async, beforeEach, beforeEachProviders, inject, injectAsync } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 import { By } from "@angular/platform-browser";
 
@@ -24,7 +24,7 @@ describe('AppComponent test', () => {
       });
   }));
 
-  it("should has text: 'top component'", async(() => {
+  it("should have text: 'top component'", async(() => {
     appComponentFix
       .then(fixture => {
         const el = fixture.debugElement;
@@ -34,7 +34,7 @@ describe('AppComponent test', () => {
       });
   }));
 
-  it("title property changed", async(() => {
+  it("title should be changed", async(() => {
     appComponentFix
       .then(fixture => {
         const instance = fixture.componentRef.instance;

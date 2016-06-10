@@ -1,4 +1,5 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
+import { Page1Service } from './page1.service';
 
 @Component({
   selector: 'sg-page1',
@@ -8,14 +9,21 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@
     <ul>
       <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
     </ul>
+    <h2>{{counter$ | async}}</h2>
+    <button (click)="increment()" name="increment">Increment</button>
   `,
+  providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class Page1Component implements OnInit {
   content: string = 'page1 content.';
   texts: string[] = [];
+  counter: number = 0;
 
-  constructor(private cd: ChangeDetectorRef) { }
+  constructor(
+    private service: Page1Service,
+    private cd: ChangeDetectorRef
+  ) { }
 
   ngOnInit() {
     (async () => {
@@ -36,4 +44,10 @@ export class Page1Component implements OnInit {
   changeContent() {
     this.content = "page1 content changed.";
   }
+
+  increment() {
+    this.service.increment(1);
+  }
+
+  get counter$() { return this.service.counter$; }
 }

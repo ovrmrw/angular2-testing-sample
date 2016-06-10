@@ -24,13 +24,39 @@ describe('Page1Component test', () => {
       });
   }));
 
-  it("should has text: 'page1 content.'", async(() => {
+  it("should have text: 'page1 content.'", async(() => {
     page1ComponentFix
       .then(fixture => {
         const el = fixture.debugElement;
         assert(el.query(By.css('h4')).nativeElement.innerHTML === '');
         fixture.detectChanges();
         assert(el.query(By.css('h4')).nativeElement.innerHTML === 'page1 content.');
+      });
+  }));
+
+  it("counter should have number: '0'", async(() => {
+    page1ComponentFix
+      .then(fixture => {
+        const el = fixture.debugElement;
+        assert(el.query(By.css('h2')).nativeElement.innerHTML === '');
+        fixture.detectChanges();
+        assert(el.query(By.css('h2')).nativeElement.innerHTML === '0');
+      });
+  }));
+
+  it("counter should be incremented correctly", async(() => {
+    page1ComponentFix
+      .then(fixture => {
+        const instance = fixture.componentRef.instance;
+        const el = fixture.debugElement;
+        fixture.detectChanges();
+        assert(el.query(By.css('h2')).nativeElement.innerHTML === '0');
+        instance.increment();
+        fixture.detectChanges();
+        assert(el.query(By.css('h2')).nativeElement.innerHTML === '1');
+        instance.increment();
+        fixture.detectChanges();
+        assert(el.query(By.css('h2')).nativeElement.innerHTML === '2');
       });
   }));
 
