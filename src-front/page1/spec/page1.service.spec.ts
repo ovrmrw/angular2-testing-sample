@@ -6,7 +6,7 @@ import { Page1Service } from '../page1.service';
  */
 import assert from 'power-assert';
 import { describe, it, async, expect, xit, beforeEach, beforeEachProviders, inject, fakeAsync, tick } from '@angular/core/testing';
-
+import { Observable } from 'rxjs/Rx';
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
   let service: Page1Service;

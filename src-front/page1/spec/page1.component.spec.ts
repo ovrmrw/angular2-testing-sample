@@ -50,12 +50,15 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
         const de = fixture.debugElement;
         fixture.detectChanges();
         assert(el.querySelector('h2').innerHTML === '0');
+        instance.counter$.subscribe(c => assert(c === 0)).unsubscribe();
         instance.increment();
         fixture.detectChanges();
         assert(el.querySelector('h2').innerHTML === '1');
+        instance.counter$.subscribe(c => assert(c === 1)).unsubscribe();
         instance.increment();
         fixture.detectChanges();
-        assert(el.querySelector('h2').innerHTML === '2');        
+        assert(el.querySelector('h2').innerHTML === '2');
+        instance.counter$.subscribe(c => assert(c === 2)).unsubscribe();
       });
   }));
 

@@ -12,6 +12,20 @@ module.exports = {
       .waitForElementPresent('sg-page1 ul li#text2', maxWait) // 少し遅れて表示される。
       .assert.containsText('sg-page1 ul li#text2', 'end async')
 
-      .end();      
+      .end();
+  },
+
+  'Nightwatch test 3': function (browser) {
+    browser
+      .url('http://localhost:3000')
+
+      .assert.containsText('sg-page1 h2', '0')
+      .click('sg-page1 button[name="increment"]')
+      .assert.containsText('sg-page1 h2', '1')
+      .click('sg-page1 button[name="increment"]')
+      .assert.containsText('sg-page1 h2', '2')
+
+      .end();
   }
+
 };
