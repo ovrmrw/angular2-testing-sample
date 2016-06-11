@@ -42,7 +42,7 @@ module.exports = function (config) {
 
 
     // enable / disable colors in the output (reporters and logs)
-    colors: true,
+    colors: false,
 
 
     // level of logging
@@ -56,7 +56,7 @@ module.exports = function (config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'],
+    browsers: ['PhantomJS'], // PhantomJS / Firefox
 
 
     // Continuous Integration mode
@@ -76,5 +76,8 @@ module.exports = function (config) {
       // output: 'autowatch',
       divider: '/'
     },
+
+
+    // restartOnFileChange: true,
   })
 }

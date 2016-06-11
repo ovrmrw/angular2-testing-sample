@@ -1,4 +1,4 @@
-import { AppComponent } from './app.component';
+import { AppComponent } from '../app.component';
 
 
 /**
@@ -9,7 +9,7 @@ import { describe, it, expect, async, beforeEach, beforeEachProviders, inject, i
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 
 
-describe('AppComponent test', () => {
+describe('AppComponent test ' + '-'.repeat(40), () => {
   let appComponentFix: Promise<ComponentFixture<AppComponent>>;
 
   beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {

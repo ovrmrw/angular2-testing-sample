@@ -9,13 +9,14 @@
     "build:client:w": "webpack --watch",
     "build": "npm run build:client",
     "prestart": "npm run build",
-    "start": "concurrently -k \"npm run build:client:w\" \"lite-server\" ", 
+    "start": "concurrently -k \"npm run build:client:w\" \"lite-server\" ",
     "tslint": "tslint -c tslint.json src*/**/*.ts",
     "karma": "karma start --single-run",
     "karma:w": "karma start",
     "nightwatch": "gulp nightwatch",
     "nightwatch:w": "gulp nightwatch:w",
-    "test": "concurrently -k \"npm run karma:w\" \"npm run nightwatch:w\" "
+    "test": "npm run karma && npm run nightwatch",
+    "test:w": "concurrently -k \"npm run karma:w\" \"npm run nightwatch:w\" "
   },
   "repository": {
     "type": "git",
@@ -56,6 +57,7 @@
     "jasmine-core": "^2.4.1",
     "json-loader": "^0.5.4",
     "karma": "^0.13.22",
+    "karma-firefox-launcher": "^1.0.0",
     "karma-jasmine": "^1.0.2",
     "karma-mocha-reporter": "^2.0.3",
     "karma-phantomjs-launcher": "^1.0.0",

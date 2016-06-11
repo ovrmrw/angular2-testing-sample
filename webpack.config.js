@@ -10,7 +10,7 @@ const atlQuery = { // stands for 'awesome-typescript-loader query'
     presets: ['es2015'],
     plugins: []
   },
-  useCache: true,
+  useCache: false,
 };
 // console.log(atlQuery);
 

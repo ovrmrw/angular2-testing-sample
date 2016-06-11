@@ -9,10 +9,10 @@ import { Page1Service } from './page1.service';
     <ul>
       <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
     </ul>
-    <h2>{{counter$ | async}}</h2>
+    <h2>{{_$counter}}</h2>
     <button (click)="increment()" name="increment">Increment</button>
     <hr />
-    <!-- <div>{{timeNow$ | async | date:'medium'}}</div> これを表示させるとe2eテストがエラーになる。謎。 -->
+    <!-- <div>{{timeNow$ | async | date:'medium'}}</div> -->
   `,
   providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -40,6 +40,11 @@ export class Page1Component implements OnInit {
 
       this.texts.push('end async');
     })();
+
+    this.service.counter$.subscribe(counter => {
+      this._$counter = counter;
+      this.cd.markForCheck();
+    });
   }
 
   changeContent() {
@@ -51,6 +56,7 @@ export class Page1Component implements OnInit {
   }
 
   get counter$() { return this.service.counter$; }
+  private _$counter:number;
 
   get timeNow$() { return this.service.timeNow$; }
 }
