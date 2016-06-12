@@ -26,7 +26,7 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
   it('should have text: "top component"', async(() => {
     appComponentFix
       .then(fixture => {
-        const el = fixture.nativeElement as HTMLDocument;
+        const el = fixture.nativeElement as HTMLElement;
         assert(el.querySelector('h3').innerHTML === '');
         fixture.detectChanges();
         assert(el.querySelector('h3').innerHTML === 'top component');
@@ -37,7 +37,7 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
     appComponentFix
       .then(fixture => {
         const instance = fixture.componentRef.instance;
-        const el = fixture.nativeElement as HTMLDocument;
+        const el = fixture.nativeElement as HTMLElement;
         instance.title = 'changed';
         fixture.detectChanges();
         assert(el.querySelector('h3').innerHTML === 'changed');

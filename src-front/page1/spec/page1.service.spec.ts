@@ -5,7 +5,7 @@ import { Page1Service } from '../page1.service';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, it, async, expect, xit, beforeEach, beforeEachProviders, inject, fakeAsync, tick } from '@angular/core/testing';
+import { describe, xdescribe, it, async, expect, xit, beforeEach, beforeEachProviders, inject, fakeAsync, tick } from '@angular/core/testing';
 import { Observable } from 'rxjs/Rx';
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
@@ -20,13 +20,17 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   }));
 
   it('counter value must be increment correctly', async(() => {
-    service.counter$.subscribe(counter => assert(counter === 0)).unsubscribe();
-    service.increment(1);
-    service.counter$.subscribe(counter => assert(counter === 1)).unsubscribe();
-    service.increment(1);
-    service.counter$.subscribe(counter => assert(counter === 2)).unsubscribe();
-    service.increment(2);
-    service.counter$.subscribe(counter => assert(counter === 4)).unsubscribe();
+    setTimeout(() => {
+      console.log('Second turn of NgZone (?)');
+      service.counter$.subscribe(counter => assert(counter === 0)).unsubscribe();
+      service.increment(1);
+      service.counter$.subscribe(counter => assert(counter === 1)).unsubscribe();
+      service.increment(1);
+      service.counter$.subscribe(counter => assert(counter === 2)).unsubscribe();
+      service.increment(2);
+      service.counter$.subscribe(counter => assert(counter === 4)).unsubscribe();
+    }, 0);
+    console.log('First turn of NgZone');
   }));
 
   it('fakeAsync test', fakeAsync(() => {

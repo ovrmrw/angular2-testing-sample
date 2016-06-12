@@ -17,8 +17,8 @@ export class Page1Service {
         return p + value;
       }, initCounter),
 
-      // Observable.interval(1000)
-      //   .map(() => lodash.now())
+      Observable.timer(1, 1000)
+        .map(() => lodash.now())
     ];
 
     Observable
@@ -26,11 +26,11 @@ export class Page1Service {
       .do(values => {
         console.log(values);
         this.outCounter$.next(values[0]);
-        // this.outTimeNow$.next(values[1]);
+        this.outTimeNow$.next(values[1]);
       })
       .subscribe();
 
-    // this.inCounter$.next(0); // Observableループをkick
+    this.inCounter$.next(0); // Observableループをkick
   }
 
   increment(value: number): void {
