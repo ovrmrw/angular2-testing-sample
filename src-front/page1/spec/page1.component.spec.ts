@@ -19,7 +19,6 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   it('can create', async(() => {
     page1ComponentFix
       .then(fixture => {
-        console.log(fixture.isStable());
         assert(!!fixture);
       })
   }));
@@ -28,9 +27,11 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     page1ComponentFix
       .then(fixture => {
         const el = fixture.nativeElement as HTMLElement;
-        assert(el.querySelector('h4').textContent === '');
+        const contentSelector = 'h4';
+
+        assert(el.querySelector(contentSelector).textContent === '');
         fixture.detectChanges();
-        assert(el.querySelector('h4').textContent === 'page1 content.');
+        assert(el.querySelector(contentSelector).textContent === 'page1 content.');
       });
   }));
 
@@ -38,29 +39,35 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     page1ComponentFix
       .then(fixture => {
         const el = fixture.nativeElement as HTMLElement;
-        assert(el.querySelector('h2').textContent === '');
+        const counterSelector = 'h2';
+
+        assert(el.querySelector(counterSelector).textContent === '');
         fixture.detectChanges();
-        assert(el.querySelector('h2').textContent === '0');
+        assert(el.querySelector(counterSelector).textContent === '0');
       });
   }));
 
   it('counter should be incremented correctly', async(() => {
     page1ComponentFix
       .then(fixture => {
-        const instance = fixture.componentRef.instance;
+        const component = fixture.componentRef.instance;
         const el = fixture.nativeElement as HTMLElement;
+        const buttonSelector = '#btnIncrement';
+        const counterSelector = 'h2';
 
         setTimeout(() => {
           console.log('Second turn of NgZone (?)');
-          assert(el.querySelector('h2').textContent === '');
+          assert(el.querySelector(counterSelector).textContent === '');
           fixture.detectChanges();
-          assert(el.querySelector('h2').textContent === '0');
-          instance.increment();
+          assert(el.querySelector(counterSelector).textContent === '0');
+          // instance.increment();
+          (<HTMLButtonElement>el.querySelector(buttonSelector)).click();
           fixture.detectChanges();
-          assert(el.querySelector('h2').textContent === '1');
-          instance.increment();
+          assert(el.querySelector(counterSelector).textContent === '1');
+          // instance.increment();
+          (<HTMLButtonElement>el.querySelector(buttonSelector)).click();
           fixture.detectChanges();
-          assert(el.querySelector('h2').textContent === '2');
+          assert(el.querySelector(counterSelector).textContent === '2');
         }, 0);
 
         console.log('First turn of NgZone');
@@ -72,22 +79,23 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       .then(fixture => {
         const instance = fixture.componentRef.instance;
         const el = fixture.nativeElement as HTMLElement;
+        const textsSelector = 'ul li';       
 
         setTimeout(() => {
           console.log('Second turn of NgZone (?)');
           fixture.detectChanges();
-          assert(el.querySelectorAll('ul li').length === 1);
-          assert(el.querySelectorAll('ul li')[0].textContent === 'start async');
+          assert(el.querySelectorAll(textsSelector).length === 1);
+          assert(el.querySelectorAll(textsSelector)[0].textContent === 'start async');
           console.log(instance.texts);
-        }, 0);
 
-        setTimeout(() => {
-          console.log('Third turn of NgZone (?)');
-          fixture.detectChanges();
-          assert(el.querySelectorAll('ul li').length === 3);
-          assert(el.querySelectorAll('ul li')[2].textContent === 'end async');
-          console.log(instance.texts);
-        }, 2000);
+          setTimeout(() => {
+            console.log('Third turn of NgZone (?)');
+            fixture.detectChanges();
+            assert(el.querySelectorAll(textsSelector).length === 3);
+            assert(el.querySelectorAll(textsSelector)[2].textContent === 'end async');
+            console.log(instance.texts);
+          }, 1000);
+        }, 0);
 
         console.log('First turn of NgZone');
       });
