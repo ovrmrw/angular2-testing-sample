@@ -12,7 +12,7 @@ import { Page1Service } from './page1.service';
     <h2>{{counter$ | async}}</h2>
     <button (click)="increment()" id="btnIncrement">Increment</button>.
     <hr />
-    <div>{{timeNow$ | async | date:'medium'}}</div>
+    <div id="now">{{timeNow$ | async | date:'medium'}}</div>
   `,
   providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
