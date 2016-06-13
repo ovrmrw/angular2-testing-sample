@@ -4,8 +4,8 @@ const jar = require('selenium-server-standalone-jar');
 const phantomjs = require('phantomjs-prebuilt');
 
 // phantomjsだとsetInterval等でDOMが更新されているとエラーになるので仕方なくfirefoxを使う。
-// const browserName = 'firefox';
-const browserName = '';
+const browserName = 'firefox';
+// const browserName = '';
 
 module.exports = (function (settings) {
   settings.selenium.server_path = jar.path;

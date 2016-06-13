@@ -21,16 +21,21 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   }));
 
   it('counter value must be increment correctly', async(() => {
-    setTimeout(() => {
+    (async () => {
+      await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
       console.log('Second turn of NgZone (?)');
       service.counter$.subscribe(counter => assert(counter === 0)).unsubscribe();
+
       service.increment(1);
       service.counter$.subscribe(counter => assert(counter === 1)).unsubscribe();
+
       service.increment(1);
       service.counter$.subscribe(counter => assert(counter === 2)).unsubscribe();
+
       service.increment(2);
       service.counter$.subscribe(counter => assert(counter === 4)).unsubscribe();
-    }, 0);
+    })();
+
     console.log('First turn of NgZone');
   }));
 
@@ -46,3 +51,13 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
     console.log(value);
   }));
 });
+
+
+function setTimeoutPromise(ms: number): Promise<any> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('***** setTimeout: ' + ms + ' ms *****');
+      resolve();
+    }, ms);
+  });
+}

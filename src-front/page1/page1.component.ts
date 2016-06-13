@@ -9,7 +9,7 @@ import { Page1Service } from './page1.service';
     <ul>
       <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
     </ul>
-    <h2>{{_$counter}}</h2>
+    <h2>{{counter$ | async}}</h2>
     <button (click)="increment()" id="btnIncrement">Increment</button>.
     <hr />
     <div>{{timeNow$ | async | date:'medium'}}</div>
@@ -22,8 +22,8 @@ export class Page1Component implements OnInit {
   texts: string[] = [];
 
   constructor(
-    private service: Page1Service,
-    public cd: ChangeDetectorRef
+    public service: Page1Service,
+    private cd: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -41,10 +41,10 @@ export class Page1Component implements OnInit {
       this.texts.push('end async');
     })();
 
-    this.service.counter$.subscribe(counter => {
-      this._$counter = counter;
-      this.cd.markForCheck();
-    });
+    // this.service.counter$.subscribe(counter => {
+    //   this._$counter = counter;
+    //   this.cd.markForCheck();
+    // });
   }
 
   changeContent() {
@@ -55,7 +55,7 @@ export class Page1Component implements OnInit {
     this.service.increment(1);
   }
 
-  get counter$() { return this.service.counter$.do(c => console.log(c)); }
+  get counter$() { return this.service.counter$; }
   private _$counter: number;
 
   get timeNow$() { return this.service.timeNow$; }

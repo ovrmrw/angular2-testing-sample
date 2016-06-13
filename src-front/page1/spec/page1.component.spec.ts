@@ -55,20 +55,19 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
         const buttonSelector = '#btnIncrement';
         const counterSelector = 'h2';
 
-        setTimeout(() => {
+        (async () => {
+          await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
           console.log('Second turn of NgZone (?)');
           assert(el.querySelector(counterSelector).textContent === '');
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '0');
-          // instance.increment();
-          (<HTMLButtonElement>el.querySelector(buttonSelector)).click();
+          (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // instance.increment();
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '1');
-          // instance.increment();
-          (<HTMLButtonElement>el.querySelector(buttonSelector)).click();
+          (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // instance.increment();
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '2');
-        }, 0);
+        })();
 
         console.log('First turn of NgZone');
       });
@@ -79,26 +78,36 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       .then(fixture => {
         const instance = fixture.componentRef.instance;
         const el = fixture.nativeElement as HTMLElement;
-        const textsSelector = 'ul li';       
+        const textsSelector = 'ul li';
 
-        setTimeout(() => {
+        (async () => {
+          await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
           console.log('Second turn of NgZone (?)');
           fixture.detectChanges();
           assert(el.querySelectorAll(textsSelector).length === 1);
           assert(el.querySelectorAll(textsSelector)[0].textContent === 'start async');
           console.log(instance.texts);
 
-          setTimeout(() => {
-            console.log('Third turn of NgZone (?)');
-            fixture.detectChanges();
-            assert(el.querySelectorAll(textsSelector).length === 3);
-            assert(el.querySelectorAll(textsSelector)[2].textContent === 'end async');
-            console.log(instance.texts);
-          }, 1000);
-        }, 0);
+          await setTimeoutPromise(1000);
+          console.log('Third turn of NgZone (?)');
+          fixture.detectChanges();
+          assert(el.querySelectorAll(textsSelector).length === 3);
+          assert(el.querySelectorAll(textsSelector)[2].textContent === 'end async');
+          console.log(instance.texts);
+        })();
 
         console.log('First turn of NgZone');
       });
   }));
 
 });
+
+
+function setTimeoutPromise(ms: number): Promise<any> {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      console.log('***** setTimeout: ' + ms + ' ms *****');
+      resolve();
+    }, ms);
+  });
+}
