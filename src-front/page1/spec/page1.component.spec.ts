@@ -29,9 +29,12 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
         const el = fixture.nativeElement as HTMLElement;
         const contentSelector = 'h4';
 
-        assert(el.querySelector(contentSelector).textContent === '');
-        fixture.detectChanges();
-        assert(el.querySelector(contentSelector).textContent === 'page1 content.');
+        (async () => {
+          await setTimeoutPromise(0);
+          assert(el.querySelector(contentSelector).textContent === '');
+          fixture.detectChanges();
+          assert(el.querySelector(contentSelector).textContent === 'page1 content.');
+        })();
       });
   }));
 
@@ -41,9 +44,12 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
         const el = fixture.nativeElement as HTMLElement;
         const counterSelector = 'h2';
 
-        assert(el.querySelector(counterSelector).textContent === '');
-        fixture.detectChanges();
-        assert(el.querySelector(counterSelector).textContent === '0');
+        (async () => {
+          await setTimeoutPromise(0);
+          assert(el.querySelector(counterSelector).textContent === '');
+          fixture.detectChanges();
+          assert(el.querySelector(counterSelector).textContent === '0');
+        })();
       });
   }));
 
@@ -57,19 +63,18 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
 
         (async () => {
           await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
-          console.log('Second turn of NgZone (?)');
           assert(el.querySelector(counterSelector).textContent === '');
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '0');
+
           (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // instance.increment();
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '1');
+
           (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // instance.increment();
           fixture.detectChanges();
           assert(el.querySelector(counterSelector).textContent === '2');
         })();
-
-        console.log('First turn of NgZone');
       });
   }));
 
@@ -82,21 +87,17 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
 
         (async () => {
           await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
-          console.log('Second turn of NgZone (?)');
           fixture.detectChanges();
           assert(el.querySelectorAll(textsSelector).length === 1);
           assert(el.querySelectorAll(textsSelector)[0].textContent === 'start async');
           console.log(instance.texts);
 
           await setTimeoutPromise(1000);
-          console.log('Third turn of NgZone (?)');
           fixture.detectChanges();
           assert(el.querySelectorAll(textsSelector).length === 3);
           assert(el.querySelectorAll(textsSelector)[2].textContent === 'end async');
           console.log(instance.texts);
         })();
-
-        console.log('First turn of NgZone');
       });
   }));
 

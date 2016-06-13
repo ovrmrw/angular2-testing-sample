@@ -23,7 +23,6 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   it('counter value must be increment correctly', async(() => {
     (async () => {
       await setTimeoutPromise(0); // NgZoneのFirstTurnを抜けてsetIntervalの縛りが外れる(?)
-      console.log('Second turn of NgZone (?)');
       service.counter$.subscribe(counter => assert(counter === 0)).unsubscribe();
 
       service.increment(1);
@@ -35,8 +34,6 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       service.increment(2);
       service.counter$.subscribe(counter => assert(counter === 4)).unsubscribe();
     })();
-
-    console.log('First turn of NgZone');
   }));
 
   it('fakeAsync test', fakeAsync(() => {
