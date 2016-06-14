@@ -12,18 +12,18 @@ import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testin
 describe('AppComponent test ' + '-'.repeat(40), () => {
   let builder: TestComponentBuilder;
 
-  beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+  beforeEach(inject([TestComponentBuilder], tcb => {
     builder = tcb;
   }));
 
-  it('can create', async(() => {
+  it('can create', () => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent);
       assert(!!fixture);
     })();
-  }));
+  });
 
-  it('should have text: "top component"', async(() => {
+  it('should have text: "top component"', () => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent) as ComponentFixture<AppComponent>;
       const el = fixture.nativeElement as HTMLElement;
@@ -32,9 +32,9 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       fixture.autoDetectChanges();
       assert(el.querySelector('h3').innerHTML === 'top component');
     })();
-  }));
+  });
 
-  it('title should be changed', async(() => {
+  it('title should be changed', () => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent) as ComponentFixture<AppComponent>;
       const component = fixture.componentRef.instance;
@@ -45,5 +45,5 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       fixture.detectChanges();
       assert(el.querySelector('h3').innerHTML === 'changed');
     })();
-  }));
+  });
 });

@@ -29,10 +29,17 @@ export function fakeAsync(fn: Function): Function {
   let fakeAsyncTestZoneSpec = new _FakeAsyncTestZoneSpecType();
   let fakeAsyncZone = Zone.current.fork(fakeAsyncTestZoneSpec);
 
+  // fakeAsyncZone = fakeAsyncZone.fork({
+  //   afterTask: function () {
+  //     discardAllPendingTasks();
+  //   }
+  // });
+
   return function (...args: any[] /** TODO #9100 */) {
     let res = fakeAsyncZone.run(() => {
       let res = fn(...args);
       flushMicrotasks();
+      discardAllPendingTasks(); // added
       return res;
     });
 
@@ -105,9 +112,17 @@ export function flushMicrotasks(): void {
 /**
  * Discard all remaining pending timer tasks.
  */
-export function discardAllPendingTasks(): void {
+function discardAllPendingTasks(): void {
   let zoneSpec = _getFakeAsyncZoneSpec();
   // let pendingTimers = zoneSpec.pendingPeriodicTimers;
-  zoneSpec.pendingPeriodicTimers.length = 0;
-  zoneSpec.pendingTimers.length = 0;
+  if (zoneSpec.pendingPeriodicTimers.length > 0) {
+    console.log(`***** ${zoneSpec.pendingPeriodicTimers.length} periodic timer(s) are discarded. *****`);
+    zoneSpec.pendingPeriodicTimers.length = 0;
+  }
+  if (zoneSpec.pendingTimers.length > 0) {
+    console.log(`***** ${zoneSpec.pendingTimers.length} timer(s) are discarded. *****`);
+    zoneSpec.pendingTimers.length = 0;
+  }
+  // zoneSpec.pendingPeriodicTimers.length = 0;
+  // zoneSpec.pendingTimers.length = 0;
 }
