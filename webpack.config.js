@@ -23,7 +23,7 @@ const atlQueryForTest = (function (query) { // stands for 'awesome-typescript-lo
 
 module.exports = [
   {
-    entry: ['./src-front/entrypoint.ts'],
+    entry: ['./src-front/boot.ts'],
     output: {
       filename: './bundles/webpack.bundle.js'
     },
@@ -51,7 +51,7 @@ module.exports = [
     devtool: 'source-map', // output source map
   },
   {
-    entry: ['./test/unittest.entrypoint.ts'],
+    entry: ['./test/unittest.boot.ts'],
     output: {
       filename: './bundles/webpack.bundle.spec.espowered.js'
     },
