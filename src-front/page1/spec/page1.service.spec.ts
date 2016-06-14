@@ -12,9 +12,11 @@ import { fakeAsync, tick } from '../../fake_async';
 describe('Page1Service test ' + '-'.repeat(40), () => {
   let service: Page1Service;
 
-  beforeEach(() => {
-    service = new Page1Service();
-  })
+  beforeEachProviders(() => [Page1Service]);
+
+  beforeEach(inject([Page1Service], _service => {
+    service = _service;
+  }));
 
   it('can create', () => {
     assert(!!service);

@@ -70,6 +70,7 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     tick(1);
     fixture.detectChanges();
     assert(el.querySelector(counterSelector).textContent === '2');
+    expect(el.querySelector(counterSelector).textContent).toBe('2');
   }));
 
   it('texts should be shown delayed via async function', fakeAsync(() => {

@@ -16,13 +16,13 @@ $ npm start
 
 ###Test (unit test and e2e test simultaneously)
 ```
-$ npm test
+$ npm test (or) npm test:w
 ```
 
 ###Test (individually)
 ```
-$ npm run karma
+$ npm run karma (or) npm run karma:w
 or
-$ npm run nightwatch
+$ npm run nightwatch (or) npm run nightwatch:w
 ```
 "karma" for unit test. "nightwatch" for e2e test.

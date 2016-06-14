@@ -45,37 +45,45 @@ module.exports = [
         {
           test: /\.json$/,
           loader: "json-loader"
+        },
+        {
+          test: /\.html$/,
+          loader: "html-loader"
         }
       ]
     },
     devtool: 'source-map', // output source map
   },
-  {
-    entry: ['./test/unittest.boot.ts'],
-    output: {
-      filename: './bundles/webpack.bundle.spec.espowered.js'
-    },
-    resolve: {
-      extensions: ['', '.ts', '.js']
-    },
-    plugins: [
-      // new webpack.optimize.UglifyJsPlugin() // minify enabled
-    ],
-    module: {
-      loaders: [
-        {
-          test: /\.ts$/,
-          exclude: [/node_modules/],
-          // loader: 'babel-loader?presets[]=es2015&plugins[]=babel-plugin-espower!ts-loader', // babel-loaderがbabel-plugin-espowerを読み込む必要がある。
-          loader: 'awesome-typescript-loader', // babel-loader!ts-loader と同じようなもの
-          query: atlQueryForTest
-        },
-        {
-          test: /\.json$/,
-          loader: "json-loader"
-        }
-      ]
-    },
-    devtool: 'inline-source-map',
-  }
+  // {
+  //   entry: ['./test/unittest.boot.ts'],
+  //   output: {
+  //     filename: './bundles/webpack.bundle.spec.espowered.js'
+  //   },
+  //   resolve: {
+  //     extensions: ['', '.ts', '.js']
+  //   },
+  //   plugins: [
+  //     // new webpack.optimize.UglifyJsPlugin() // minify enabled
+  //   ],
+  //   module: {
+  //     loaders: [
+  //       {
+  //         test: /\.ts$/,
+  //         exclude: [/node_modules/],
+  //         // loader: 'babel-loader?presets[]=es2015&plugins[]=babel-plugin-espower!ts-loader', // babel-loaderがbabel-plugin-espowerを読み込む必要がある。
+  //         loader: 'awesome-typescript-loader', // babel-loader!ts-loader と同じようなもの
+  //         query: atlQueryForTest
+  //       },
+  //       {
+  //         test: /\.json$/,
+  //         loader: "json-loader"
+  //       },
+  //       {
+  //         test: /\.html$/,
+  //         loader: "html-loader"
+  //       }
+  //     ]
+  //   },
+  //   devtool: 'inline-source-map',
+  // }
 ]

@@ -1,19 +1,22 @@
 import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Page1Service } from './page1.service';
 
+
 @Component({
   selector: 'sg-page1',
-  template: `
-    <h4>{{content}}</h4>
-    <button (click)="changeContent()" name="change">Change</button>
-    <ul>
-      <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
-    </ul>
-    <h2>{{counter$ | async}}</h2>
-    <button (click)="increment()" id="btnIncrement">Increment</button>.
-    <hr />
-    <div id="now">{{timeNow$ | async | date:'medium'}}</div>
-  `,
+  // template: `
+  //   <h4>{{content}}</h4>
+  //   <button (click)="changeContent()" name="change">Change</button>
+  //   <ul>
+  //     <li *ngFor="let text of texts,let i=index" id="text{{i}}">{{text}}</li>
+  //   </ul>
+  //   <h2>{{counter$ | async}}</h2>
+  //   <button (click)="increment()" id="btnIncrement">Increment</button>.
+  //   <hr />
+  //   <div id="now">{{timeNow$ | async | date:'medium'}}</div>
+  // `,
+  // template: html,
+  template: require('./page1.component.html'),
   providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
 })
