@@ -9,7 +9,7 @@ First of all, make sure that your PC has been installed Java runtime to run Sele
 $ npm install
 ```
 
-###Run
+###Run (must be done before e2e test)
 ```
 $ npm start
 ```
