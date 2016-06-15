@@ -116,11 +116,11 @@ function discardAllPendingTasks(): void {
   let zoneSpec = _getFakeAsyncZoneSpec();
   // let pendingTimers = zoneSpec.pendingPeriodicTimers;
   if (zoneSpec.pendingPeriodicTimers.length > 0) {
-    console.log(`***** ${zoneSpec.pendingPeriodicTimers.length} periodic timer(s) are discarded. *****`);
+    console.log(`***** fakeAsync: ${zoneSpec.pendingPeriodicTimers.length} periodic timer(s) are discarded. *****`);
     zoneSpec.pendingPeriodicTimers.length = 0;
   }
   if (zoneSpec.pendingTimers.length > 0) {
-    console.log(`***** ${zoneSpec.pendingTimers.length} timer(s) are discarded. *****`);
+    console.log(`***** fakeAsync: ${zoneSpec.pendingTimers.length} timer(s) are discarded. *****`);
     zoneSpec.pendingTimers.length = 0;
   }
   // zoneSpec.pendingPeriodicTimers.length = 0;
