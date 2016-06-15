@@ -9,14 +9,16 @@ First of all, make sure that your PC has been installed Java runtime to run Sele
 $ npm install
 ```
 
-###Run (must be done before Test)
+###Run
 ```
 $ npm start
 ```
 
+---
+
 ###Test (unit test and e2e test simultaneously)
 ```
-$ npm test (or) npm test:w
+$ npm test (or) npm run test:w
 ```
 
 ###Test (individually)
