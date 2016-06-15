@@ -1,6 +1,5 @@
-declare var Error: any;
-
-Error.stackTraceLimit = Infinity;
+// declare var Error: any;
+// Error.stackTraceLimit = Infinity;
 
 import 'core-js/shim';
 import 'babel-polyfill';

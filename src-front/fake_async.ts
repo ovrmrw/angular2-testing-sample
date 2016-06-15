@@ -39,7 +39,13 @@ export function fakeAsync(fn: Function): Function {
     let res = fakeAsyncZone.run(() => {
       let res = fn(...args);
       flushMicrotasks();
+
+
+
       discardAllPendingTasks(); // added
+
+
+
       return res;
     });
 
@@ -107,6 +113,7 @@ export function discardPeriodicTasks(): void {
 export function flushMicrotasks(): void {
   _getFakeAsyncZoneSpec().flushMicrotasks();
 }
+
 
 
 /**

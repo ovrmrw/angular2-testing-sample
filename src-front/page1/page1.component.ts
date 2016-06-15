@@ -15,7 +15,6 @@ import { Page1Service } from './page1.service';
   //   <hr />
   //   <div id="now">{{timeNow$ | async | date:'medium'}}</div>
   // `,
-  // template: html,
   template: require('./page1.component.html'),
   providers: [Page1Service],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -43,11 +42,6 @@ export class Page1Component implements OnInit {
 
       this.texts.push('end async');
     })();
-
-    // this.service.counter$.subscribe(counter => {
-    //   this._$counter = counter;
-    //   this.cd.markForCheck();
-    // });
   }
 
   changeContent() {
@@ -59,7 +53,6 @@ export class Page1Component implements OnInit {
   }
 
   get counter$() { return this.service.counter$; }
-  private _$counter: number;
 
   get timeNow$() { return this.service.timeNow$; }
 }

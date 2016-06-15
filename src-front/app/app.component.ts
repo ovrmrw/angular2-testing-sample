@@ -8,7 +8,7 @@ import { Page1Component } from '../page1/page1.component';
     <h3>{{title}}</h3>
     <nav>
       <a linkTo="/">Home</a>
-      <a linkTo="/blog">Blog(empty)</a>
+      <a linkTo="/blog">Foo(empty)</a>
     </nav>
     <route-view></route-view>
   `,

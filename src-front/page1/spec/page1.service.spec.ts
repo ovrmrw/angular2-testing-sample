@@ -5,7 +5,7 @@ import { Page1Service } from '../page1.service';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, xdescribe, it, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
+import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
 import { fakeAsync, tick } from '../../fake_async';
 import { Observable } from 'rxjs/Rx';
 
@@ -14,14 +14,18 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
 
   beforeEachProviders(() => [Page1Service]);
 
+
   beforeEach(inject([Page1Service], _service => {
     service = _service;
   }));
 
-  it('can create', () => {
-    assert(!!service);
-  });
 
+  it('can create', async(() => {
+    assert(!!service);
+  }));
+
+
+  // このテストはfakeAsyncテストでは通らない。asyncテストでもsetTimeoutしないと通らない。
   it('counter value must be increment correctly', async(() => {
     (async () => {
       await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
@@ -31,8 +35,7 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       service.increment(1);
       assert(observableValue(service.counter$) === 2);
       service.increment(2);
-      assert(observableValue(service.counter$) === 5);
-      expect(observableValue(service.counter$)).toBe(4);
+      assert(observableValue(service.counter$) === 4); // 例えば4を他の数字に変更するとテストがコケる。
     })();
   }));
 
