@@ -34,10 +34,11 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       assert(observableValue(service.counter$) === 1);
       service.increment(1);
       assert(observableValue(service.counter$) === 2);
-      service.increment(2);
-      assert(observableValue(service.counter$) === 4); // 例えば4を他の数字に変更するとテストがコケる。
+      service.increment(3);
+      assert(observableValue(service.counter$) === 5);
     })();
   }));
+
 
   // it('fakeAsync test', fakeAsync(() => {
   //   let value = '';

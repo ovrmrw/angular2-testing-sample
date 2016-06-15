@@ -16,12 +16,14 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
     builder = tcb;
   }));
 
+
   it('can create', async(() => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent);
       assert(!!fixture);
     })();
   }));
+
 
   it('should have text: "top component"', async(() => {
     (async () => {
@@ -33,6 +35,7 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       assert(elementText(el, 'h3') === 'top component');
     })();
   }));
+
 
   it('title should be changed', async(() => {
     (async () => {
