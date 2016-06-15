@@ -6,7 +6,6 @@ import { Page1Service } from '../page1.service';
  */
 import assert from 'power-assert';
 import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { fakeAsync, tick } from '../../fake_async';
 import { Observable } from 'rxjs/Rx';
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
@@ -26,6 +25,7 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
 
 
   // このテストはfakeAsyncテストでは通らない。asyncテストでもsetTimeoutしないと通らない。
+  // ServiceからsetInterval(Observable.timer)を取り除けばこんなややこしいことをしなくてもテストが通る。
   it('counter value must be increment correctly', async(() => {
     (async () => {
       await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
