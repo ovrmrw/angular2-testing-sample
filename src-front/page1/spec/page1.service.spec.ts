@@ -22,18 +22,19 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
     assert(!!service);
   });
 
-  it('counter value must be increment correctly', () => {
+  it('counter value must be increment correctly', async(() => {
     (async () => {
       await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
-      assert(getValueFromObservable(service.counter$) === 0);
+      assert(observableValue(service.counter$) === 0);
       service.increment(1);
-      assert(getValueFromObservable(service.counter$) === 1);
+      assert(observableValue(service.counter$) === 1);
       service.increment(1);
-      assert(getValueFromObservable(service.counter$) === 2);
+      assert(observableValue(service.counter$) === 2);
       service.increment(2);
-      assert(getValueFromObservable(service.counter$) === 4);
+      assert(observableValue(service.counter$) === 5);
+      expect(observableValue(service.counter$)).toBe(4);
     })();
-  });
+  }));
 
   // it('fakeAsync test', fakeAsync(() => {
   //   let value = '';
@@ -63,7 +64,7 @@ function setTimeoutPromise(ms: number, forNextTurn: boolean = false): Promise<an
 }
 
 
-function getValueFromObservable<T>(obs: Observable<T>): T {
+function observableValue<T>(obs: Observable<T>): T {
   let _value: any;
   obs.subscribe(value => _value = value).unsubscribe(); // unsubscribeしないとsubscriptionが生き続けて処理の邪魔をする。
   return _value;

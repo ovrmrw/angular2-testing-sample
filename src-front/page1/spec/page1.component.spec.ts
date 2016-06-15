@@ -30,9 +30,9 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       const el = fixture.nativeElement as HTMLElement;
       const contentSelector = 'h4';
 
-      assert(el.querySelector(contentSelector).textContent === '');
+      assert(elementText(el, contentSelector) === '');
       fixture.detectChanges();
-      assert(el.querySelector(contentSelector).textContent === 'page1 content.');
+      assert(elementText(el, contentSelector) === 'page1 content.');
     })();
   });
 
@@ -42,9 +42,9 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       const el = fixture.nativeElement as HTMLElement;
       const counterSelector = 'h2';
 
-      assert(el.querySelector(counterSelector).textContent === '');
+      assert(elementText(el, counterSelector) === '');
       fixture.detectChanges();
-      assert(el.querySelector(counterSelector).textContent === '0');
+      assert(elementText(el, counterSelector) === '0');
     })();
   });
 
@@ -57,20 +57,19 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     const buttonSelector = '#btnIncrement';
     const counterSelector = 'h2';
 
-    assert(el.querySelector(counterSelector).textContent === '');
+    assert(elementText(el, counterSelector) === '');
     fixture.detectChanges();
-    assert(el.querySelector(counterSelector).textContent === '0');
+    assert(elementText(el, counterSelector) === '0');
 
     (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // component.increment();
     tick(1);
     fixture.detectChanges();
-    assert(el.querySelector(counterSelector).textContent === '1');
+    assert(elementText(el, counterSelector) === '1');
 
     (<HTMLButtonElement>el.querySelector(buttonSelector)).click(); // component.increment();
     tick(1);
     fixture.detectChanges();
-    assert(el.querySelector(counterSelector).textContent === '2');
-    expect(el.querySelector(counterSelector).textContent).toBe('2');
+    assert(elementText(el, counterSelector) === '2');
   }));
 
   it('texts should be shown delayed via async function', fakeAsync(() => {
@@ -81,13 +80,23 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     const textsSelector = 'ul li';
 
     fixture.detectChanges();
-    assert(el.querySelectorAll(textsSelector).length === 1);
-    assert(el.querySelectorAll(textsSelector)[0].textContent === 'start async');
+    assert(elements(el, textsSelector).length === 1);
+    assert(elementText(el, textsSelector, 0) === 'start async');
 
     tick(1000);
     fixture.detectChanges();
-    assert(el.querySelectorAll(textsSelector).length === 3);
-    assert(el.querySelectorAll(textsSelector)[2].textContent === 'end async');
+    assert(elements(el, textsSelector).length === 3);
+    assert(elementText(el, textsSelector, 2) === 'end async');
   }));
 
 });
+
+
+function elementText(element: HTMLElement, selectors: string, index: number = 0): string {
+  return element.querySelectorAll(selectors)[index].textContent;
+}
+
+
+function elements(element: HTMLElement, selectors: string): NodeListOf<Element> {
+  return element.querySelectorAll(selectors);
+}

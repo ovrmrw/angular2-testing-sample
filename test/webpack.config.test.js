@@ -2,7 +2,7 @@
 
 const webpack = require('webpack');
 
-const atlQuery = { // stands for 'awesome-typescript-loader query'
+const atlQueryForTest = { // stands for 'awesome-typescript-loader query'
   library: 'es2015', // = 'es6'
   useBabel: true,
   babelOptions: {
@@ -12,11 +12,13 @@ const atlQuery = { // stands for 'awesome-typescript-loader query'
   useCache: true,
 };
 
+
 module.exports = [
   {
     entry: ['./test/unittest.boot.ts'],
     output: {
-      filename: './bundles/webpack.bundle.spec.espowered.js'
+      path: 'bundles',
+      filename: 'webpack.bundle.spec.espowered.js'
     },
     resolve: {
       extensions: ['', '.ts', '.js']
@@ -28,10 +30,10 @@ module.exports = [
       loaders: [
         {
           test: /\.ts$/,
-          exclude: [/node_modules/],
+          exclude: [/node_modules/, /typings/],
           // loader: 'babel-loader?presets[]=es2015&plugins[]=babel-plugin-espower!ts-loader', // babel-loaderがbabel-plugin-espowerを読み込む必要がある。
           loader: 'awesome-typescript-loader', // babel-loader!ts-loader と同じようなもの
-          query: atlQuery
+          query: atlQueryForTest
         },
         {
           test: /\.json$/,

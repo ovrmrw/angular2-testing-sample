@@ -28,9 +28,9 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       const fixture = await builder.createAsync(AppComponent) as ComponentFixture<AppComponent>;
       const el = fixture.nativeElement as HTMLElement;
 
-      assert(el.querySelector('h3').innerHTML === '');
+      assert(elementText(el, 'h3') === '');
       fixture.autoDetectChanges();
-      assert(el.querySelector('h3').innerHTML === 'top component');
+      assert(elementText(el, 'h3') === 'top component');
     })();
   });
 
@@ -43,7 +43,12 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       component.title = 'changed';
 
       fixture.detectChanges();
-      assert(el.querySelector('h3').innerHTML === 'changed');
+      assert(elementText(el, 'h3') === 'changed');
     })();
   });
 });
+
+
+function elementText(element: HTMLElement, selectors: string, index: number = 0): string {
+  return element.querySelectorAll(selectors)[index].textContent;
+}
