@@ -42,6 +42,7 @@ export function fakeAsync(fn: Function): Function {
 
 
 
+      discardPeriodicTasks(); // added
       discardAllPendingTasks(); // added
 
 
@@ -123,11 +124,11 @@ function discardAllPendingTasks(): void {
   let zoneSpec = _getFakeAsyncZoneSpec();
   // let pendingTimers = zoneSpec.pendingPeriodicTimers;
   if (zoneSpec.pendingPeriodicTimers.length > 0) {
-    console.log(`***** fakeAsync: ${zoneSpec.pendingPeriodicTimers.length} periodic timer(s) are discarded. *****`);
+    console.warn(`***** fakeAsync: ${zoneSpec.pendingPeriodicTimers.length} periodic timer(s) are discarded forcibly. *****`);
     zoneSpec.pendingPeriodicTimers.length = 0;
   }
   if (zoneSpec.pendingTimers.length > 0) {
-    console.log(`***** fakeAsync: ${zoneSpec.pendingTimers.length} timer(s) are discarded. *****`);
+    console.warn(`***** fakeAsync: ${zoneSpec.pendingTimers.length} timer(s) are discarded forcibly. *****`);
     zoneSpec.pendingTimers.length = 0;
   }
   // zoneSpec.pendingPeriodicTimers.length = 0;

@@ -5,7 +5,7 @@ var maxWait = 5000;
 module.exports = {
   'Nightwatch test 2': function (browser) {
     browser
-      .url('http://localhost:3000')
+      .url('http://localhost:5000')
 
       .waitForElementVisible('sg-page1 ul li#text0', maxWait)
       .assert.containsText('sg-page1 ul li#text0', 'start async')
@@ -17,7 +17,7 @@ module.exports = {
 
   'Nightwatch test 3': function (browser) {
     browser
-      .url('http://localhost:3000')
+      .url('http://localhost:5000')
 
       .assert.containsText('sg-page1 h2', '0')
       .click('sg-page1 button#btnIncrement')

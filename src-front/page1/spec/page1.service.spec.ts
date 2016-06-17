@@ -34,9 +34,24 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       assert(observableValue(service.counter$) === 1);
       service.increment(1);
       assert(observableValue(service.counter$) === 2);
-      service.increment(3);
-      assert(observableValue(service.counter$) === 5);
+      service.increment(2);
+      assert(observableValue(service.counter$) === 4);
     })();
+  }));
+
+
+  // らこさんエディション
+  it('counter value must be increment correctly by @laco', async(() => {
+    let value: number;
+    service.counter$.subscribe(counter => value = counter);
+    setTimeout(() => {
+      service.increment(1);
+      assert(value === 1);
+      service.increment(1);
+      assert(value === 2);
+      service.increment(2);
+      assert(value === 4);
+    }, 0);
   }));
 
 

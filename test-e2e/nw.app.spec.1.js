@@ -5,7 +5,7 @@ var maxWait = 5000;
 module.exports = {
   'Nightwatch test 1': function (browser) {
     browser
-      .url('http://localhost:3000')
+      .url('http://localhost:5000')
 
       .waitForElementVisible('body', maxWait)
       .assert.title('Angular 2 QuickStart')
