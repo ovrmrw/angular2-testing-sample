@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, Subject } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, Subject, Scheduler } from 'rxjs/Rx';
 import lodash from 'lodash';
 
 const initCounter = 0;
@@ -28,6 +28,7 @@ export class Page1Service {
         this.outCounter$.next(values[0]);
         this.outTimeNow$.next(values[1]);
       })
+      .share()
       .subscribe();
 
     this.inCounter$.next(0); // Observableループをkick

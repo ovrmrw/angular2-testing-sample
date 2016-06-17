@@ -1,4 +1,7 @@
+import { provide } from '@angular/core';
 import { Page1Component } from '../page1.component';
+import { Page1Service } from '../page1.service';
+import { Page1ServiceMock } from './page1.service.mock.spec';
 
 
 /**
@@ -16,8 +19,10 @@ import { fakeAsync, tick } from '../../fake_async';
 describe('Page1Component test ' + '-'.repeat(40), () => {
   let builder: TestComponentBuilder;
 
-  beforeEach(inject([TestComponentBuilder], tcb => {
-    builder = tcb;
+  beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
+    builder = tcb.overrideProviders(Page1Component, [
+      provide(Page1Service, { useClass: Page1ServiceMock })
+    ]);
   }));
 
 
@@ -59,28 +64,26 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
 
 
   // setIntervalが検知されてasyncテストは不可。
-  it('counter should be incremented correctly', fakeAsync(() => {
-    let fixture: ComponentFixture<Page1Component>;
-    builder.createAsync(Page1Component).then(f => fixture = f);
-    tick();
-    const component = fixture.componentRef.instance;
-    const el = fixture.nativeElement as HTMLElement;
-    const INCREMENT = '#btnIncrement';
-    const COUNTER = 'h2';
+  it('counter should be incremented correctly', async(() => {
+    (async () => {
+      const fixture = await builder.createAsync(Page1Component);
+      const component = fixture.componentRef.instance;
+      const el = fixture.nativeElement as HTMLElement;
+      const INCREMENT = '#btnIncrement';
+      const COUNTER = 'h2';
 
-    assert(elementText(el, COUNTER) === '');
-    fixture.detectChanges();
-    assert(elementText(el, COUNTER) === '0');
+      assert(elementText(el, COUNTER) === '');
+      fixture.detectChanges();
+      assert(elementText(el, COUNTER) === '0');
 
-    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
-    tick(1);
-    fixture.detectChanges();
-    assert(elementText(el, COUNTER) === '1');
+      (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+      fixture.detectChanges();
+      assert(elementText(el, COUNTER) === '1');
 
-    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
-    tick(1);
-    fixture.detectChanges();
-    assert(elementText(el, COUNTER) === '2');
+      (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+      fixture.detectChanges();
+      assert(elementText(el, COUNTER) === '2');
+    })();
   }));
 
 

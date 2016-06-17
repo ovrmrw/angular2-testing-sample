@@ -6,7 +6,8 @@ import { Page1Service } from '../page1.service';
  */
 import assert from 'power-assert';
 import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { Observable } from 'rxjs/Rx';
+import { Observable, BehaviorSubject, TestScheduler, VirtualTimeScheduler } from 'rxjs/Rx';
+
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
   let service: Page1Service;
@@ -53,6 +54,9 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       assert(value === 4);
     }, 0);
   }));
+
+
+
 
 
   // it('fakeAsync test', fakeAsync(() => {
