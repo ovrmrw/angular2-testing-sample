@@ -51,16 +51,14 @@ export function fakeAsync(fn: Function): Function {
     });
 
     if (fakeAsyncTestZoneSpec.pendingPeriodicTimers.length > 0) {
-      // throw new BaseException(
-      //     `${fakeAsyncTestZoneSpec.pendingPeriodicTimers.length} ` +
-      //     `periodic timer(s) still in the queue.`);
-      console.warn(`${fakeAsyncTestZoneSpec.pendingPeriodicTimers.length} ` + `periodic timer(s) still in the queue.`);
+      throw new BaseException(
+          `${fakeAsyncTestZoneSpec.pendingPeriodicTimers.length} ` +
+          `periodic timer(s) still in the queue.`);
     }
 
     if (fakeAsyncTestZoneSpec.pendingTimers.length > 0) {
-      // throw new BaseException(
-      //   `${fakeAsyncTestZoneSpec.pendingTimers.length} timer(s) still in the queue.`);
-      console.warn(`${fakeAsyncTestZoneSpec.pendingTimers.length} timer(s) still in the queue.`);
+      throw new BaseException(
+        `${fakeAsyncTestZoneSpec.pendingTimers.length} timer(s) still in the queue.`);
     }
     return res;
   };
@@ -80,7 +78,7 @@ function _getFakeAsyncZoneSpec(): any {
  *
  * @deprecated
  */
-export function clearPendingTimers(): void {
+function clearPendingTimers(): void {
   // Do nothing.
 }
 
@@ -102,7 +100,7 @@ export function tick(millis: number = 0): void {
 /**
  * Discard all remaining periodic tasks.
  */
-export function discardPeriodicTasks(): void {
+function discardPeriodicTasks(): void {
   let zoneSpec = _getFakeAsyncZoneSpec();
   let pendingTimers = zoneSpec.pendingPeriodicTimers;
   zoneSpec.pendingPeriodicTimers.length = 0;
@@ -111,7 +109,7 @@ export function discardPeriodicTasks(): void {
 /**
  * Flush any pending microtasks.
  */
-export function flushMicrotasks(): void {
+function flushMicrotasks(): void {
   _getFakeAsyncZoneSpec().flushMicrotasks();
 }
 

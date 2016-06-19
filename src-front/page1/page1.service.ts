@@ -12,12 +12,16 @@ export class Page1Service {
   private outTimeNow$ = new BehaviorSubject<number>(initTimeNow);
 
   constructor() {
+    // setInterval(() => {
+    //   console.log('interval');
+    // }, 1000);
+
     const watchingObservables = [
       this.inCounter$.scan((p, value) => {
         return p + value;
       }, initCounter),
 
-      Observable.timer(1, 1000)
+      Observable.timer(0, 1000)
         .map(() => lodash.now())
     ];
 
@@ -28,7 +32,7 @@ export class Page1Service {
         this.outCounter$.next(values[0]);
         this.outTimeNow$.next(values[1]);
       })
-      .share()
+      // .share()
       .subscribe();
 
     this.inCounter$.next(0); // Observableループをkick

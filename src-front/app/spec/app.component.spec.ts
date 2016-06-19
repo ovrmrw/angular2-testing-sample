@@ -7,6 +7,7 @@ import { AppComponent } from '../app.component';
 import assert from 'power-assert';
 import { describe, it, expect, async, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
+import { elementText } from '../../../test';
 
 
 describe('AppComponent test ' + '-'.repeat(40), () => {
@@ -50,8 +51,3 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
     })();
   }));
 });
-
-
-function elementText(element: HTMLElement, selectors: string, index: number = 0): string {
-  return element.querySelectorAll(selectors)[index].textContent;
-}

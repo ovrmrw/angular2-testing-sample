@@ -10,10 +10,11 @@ import { Page1ServiceMock } from './page1.service.mock.spec';
 import assert from 'power-assert';
 import { describe, it, iit, xit, async, expect, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
+import { elements, elementText } from '../../../test';
 
 
 // オリジナルのfakeAsyncだとsetIntervalが元々走っているComponent(Service)をまともにテストできないので少し改造した。
-import { fakeAsync, tick } from '../../fake_async';
+import { fakeAsync, tick } from '../../../test';
 
 
 describe('Page1Component test ' + '-'.repeat(40), () => {
@@ -63,7 +64,6 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   }));
 
 
-  // setIntervalが検知されてasyncテストは不可。
   it('counter should be incremented correctly', async(() => {
     (async () => {
       const fixture = await builder.createAsync(Page1Component);
@@ -108,25 +108,3 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
 });
 
 
-function setTimeoutPromise(ms: number, forNextTurn: boolean = false): Promise<any> {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      if (forNextTurn) {
-        console.log('***** setTimeout for forwarding Zone\'s turn: ' + ms + ' ms *****');
-      } else {
-        console.log('***** setTimeout: ' + ms + ' ms *****');
-      }
-      resolve();
-    }, ms);
-  });
-}
-
-
-function elementText(element: HTMLElement, selectors: string, index: number = 0): string {
-  return element.querySelectorAll(selectors)[index].textContent;
-}
-
-
-function elements(element: HTMLElement, selectors: string): NodeListOf<Element> {
-  return element.querySelectorAll(selectors);
-}
