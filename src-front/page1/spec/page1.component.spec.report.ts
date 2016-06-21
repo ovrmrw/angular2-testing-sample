@@ -8,7 +8,7 @@ import { Page1ServiceMock } from './page1.service.mock.spec';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, it, async, expect, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
+import { describe, xdescribe, it, xit, async, expect, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 
 

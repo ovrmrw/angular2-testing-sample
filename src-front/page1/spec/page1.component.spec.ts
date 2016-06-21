@@ -9,13 +9,13 @@ import { Page1ServiceMock } from './page1.service.mock.spec';
  */
 import assert from 'power-assert';
 import lodash from 'lodash';
-import { describe, it, iit, xit, async, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
+import { describe, it, iit, xit, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 import { elements, elementText, setTimeoutPromise } from '../../../test';
-
+declare var Zone: any;
 
 // オリジナルのfakeAsyncだとsetIntervalが元々走っているComponent(Service)をまともにテストできないので少し改造した。
-import { fakeAsync, tick } from '../../../test';
+import { fakeAsync, tick, async } from '../../../test';
 
 
 describe('Page1Component test ' + '-'.repeat(40), () => {
@@ -31,9 +31,9 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   it('can create', (done) => {
     (async () => {
       const fixture = await builder.createAsync(Page1Component);
-      expect(fixture).toBeDefined();
+      assert(!!fixture);
       done();
-    })();
+    })().catch(e => done.fail(e));
   });
 
 
@@ -43,11 +43,13 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       const el = fixture.nativeElement as HTMLElement;
       const CONTENT = 'h4';
 
-      expect(elementText(el, CONTENT)).toBe('');
+      // expect(elementText(el, CONTENT)).toBe('');
+      assert(elementText(el, CONTENT) === '');
       fixture.detectChanges();
-      expect(elementText(el, CONTENT)).toBe('page1 content.');
+      // expect(elementText(el, CONTENT)).toBe('page1 content.');
+      assert(elementText(el, CONTENT) === 'page1 content.');
       done();
-    })();
+    })().catch(e => done.fail(e));
   });
 
 
@@ -61,11 +63,11 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       fixture.detectChanges();
       expect(elementText(el, COUNTER)).toBe('0');
       done();
-    })();
+    })().catch(e => done.fail(e));
   });
 
 
-  it('counter should be incremented correctly', async(() => {
+  it('counter should be incremented correctly', (done) => {
     (async () => {
       const fixture = await builder.createAsync(Page1Component);
       const component = fixture.componentRef.instance;
@@ -84,10 +86,11 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
       fixture.detectChanges();
       assert(elementText(el, COUNTER) === '2');
-    })();
-  }));
+      done();
+    })().catch(e => done.fail(e));
+  });
 
-  
+
   it('texts should be shown delayed via async function', (done) => {
     (async () => {
       const fixture = await builder.createAsync(Page1Component);
@@ -103,7 +106,7 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       expect(elements(el, TEXTS).length).toBe(3);
       expect(elementText(el, TEXTS, 2)).toBe('end async');
       done();
-    })();
+    })().catch(e => done.fail(e));
   });
 
 });

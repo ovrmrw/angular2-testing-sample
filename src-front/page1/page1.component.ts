@@ -26,7 +26,9 @@ export class Page1Component implements OnInit {
   constructor(
     public service: Page1Service,
     private cd: ChangeDetectorRef
-  ) { }
+  ) { 
+    // console.log(Zone.current);
+  }
 
   ngOnInit() {
     (async () => {

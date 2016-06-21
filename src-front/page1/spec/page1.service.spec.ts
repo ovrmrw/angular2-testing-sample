@@ -29,7 +29,7 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
 
   // このテストはfakeAsyncテストでは通らない。asyncテストでもsetTimeoutしないと通らない。
   // ServiceからsetInterval(Observable.timer)を取り除けばこんなややこしいことをしなくてもテストが通る。
-  it('counter value must be increment correctly', async(() => {
+  it('counter value must be increment correctly', (done) => {
     (async () => {
       await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
       assert(observableValue(service.counter$) === 0);
@@ -39,8 +39,9 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
       assert(observableValue(service.counter$) === 2);
       service.increment(2);
       assert(observableValue(service.counter$) === 4);
-    })();
-  }));
+      done();
+    })().catch(e => done.fail(e));
+  });
 
 
   // らこさんエディション
