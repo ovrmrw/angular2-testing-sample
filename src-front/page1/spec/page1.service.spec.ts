@@ -31,9 +31,7 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   // ServiceからsetInterval(Observable.timer)を取り除けばこんなややこしいことをしなくてもテストが通る。
   it('counter value must be increment correctly', async(() => {
     (async () => {
-      console.log(Zone.current._zoneDelegate._invokeZS);
       await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
-      console.log(Zone.current._zoneDelegate._invokeZS);
       assert(observableValue(service.counter$) === 0);
       service.increment(1);
       assert(observableValue(service.counter$) === 1);

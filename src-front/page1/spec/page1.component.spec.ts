@@ -8,9 +8,10 @@ import { Page1ServiceMock } from './page1.service.mock.spec';
  *  ===== testing world =====
  */
 import assert from 'power-assert';
-import { describe, it, iit, xit, async, expect, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
+import lodash from 'lodash';
+import { describe, it, iit, xit, async, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
-import { elements, elementText } from '../../../test';
+import { elements, elementText, setTimeoutPromise } from '../../../test';
 
 
 // オリジナルのfakeAsyncだとsetIntervalが元々走っているComponent(Service)をまともにテストできないので少し改造した。
@@ -27,41 +28,41 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   }));
 
 
-  // setIntervalが検知されてasyncテストは不可。
-  it('can create', fakeAsync(() => {
-    let fixture;
-    builder.createAsync(Page1Component).then(f => fixture = f);
-    tick();
-    assert(!!fixture);
-  }));
+  it('can create', (done) => {
+    (async () => {
+      const fixture = await builder.createAsync(Page1Component);
+      expect(fixture).toBeDefined();
+      done();
+    })();
+  });
 
 
-  // setIntervalが検知されてasyncテストは不可。
-  it('should have text: "page1 content."', fakeAsync(() => {
-    let fixture: ComponentFixture<Page1Component>;
-    builder.createAsync(Page1Component).then(f => fixture = f);
-    tick();
-    const el = fixture.nativeElement as HTMLElement;
-    const CONTENT = 'h4';
+  it('should have text: "page1 content."', (done) => {
+    (async () => {
+      const fixture = await builder.createAsync(Page1Component);
+      const el = fixture.nativeElement as HTMLElement;
+      const CONTENT = 'h4';
 
-    assert(elementText(el, CONTENT) === '');
-    fixture.detectChanges();
-    assert(elementText(el, CONTENT) === 'page1 content.');
-  }));
+      expect(elementText(el, CONTENT)).toBe('');
+      fixture.detectChanges();
+      expect(elementText(el, CONTENT)).toBe('page1 content.');
+      done();
+    })();
+  });
 
 
-  // setIntervalが検知されてasyncテストは不可。
-  it('counter should have number: "0"', fakeAsync(() => {
-    let fixture: ComponentFixture<Page1Component>;
-    builder.createAsync(Page1Component).then(f => fixture = f);
-    tick();
-    const el = fixture.nativeElement as HTMLElement;
-    const COUNTER = 'h2';
+  it('counter should have number: "0"', (done) => {
+    (async () => {
+      const fixture = await builder.createAsync(Page1Component);
+      const el = fixture.nativeElement as HTMLElement;
+      const COUNTER = 'h2';
 
-    assert(elementText(el, COUNTER) === '');
-    fixture.detectChanges();
-    assert(elementText(el, COUNTER) === '0');
-  }));
+      expect(elementText(el, COUNTER)).toBe('');
+      fixture.detectChanges();
+      expect(elementText(el, COUNTER)).toBe('0');
+      done();
+    })();
+  });
 
 
   it('counter should be incremented correctly', async(() => {
@@ -86,24 +87,24 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     })();
   }));
 
+  
+  it('texts should be shown delayed via async function', (done) => {
+    (async () => {
+      const fixture = await builder.createAsync(Page1Component);
+      const el = fixture.nativeElement as HTMLElement;
+      const TEXTS = 'ul li';
 
-  // setIntervalが検知されてasyncテストは不可。
-  it('texts should be shown delayed via async function', fakeAsync(() => {
-    let fixture: ComponentFixture<Page1Component>;
-    builder.createAsync(Page1Component).then(f => fixture = f);
-    tick();
-    const el = fixture.nativeElement as HTMLElement;
-    const TEXTS = 'ul li';
+      fixture.detectChanges();
+      expect(elements(el, TEXTS).length).toBe(1);
+      expect(elementText(el, TEXTS, 0)).toBe('start async');
 
-    fixture.detectChanges();
-    assert(elements(el, TEXTS).length === 1);
-    assert(elementText(el, TEXTS, 0) === 'start async');
-
-    tick(1000); // 例えば1000を900に変更するとテストがコケる。まだViewが更新されていないから。
-    fixture.detectChanges();
-    assert(elements(el, TEXTS).length === 3);
-    assert(elementText(el, TEXTS, 2) === 'end async');
-  }));
+      await setTimeoutPromise(1000);
+      fixture.detectChanges();
+      expect(elements(el, TEXTS).length).toBe(3);
+      expect(elementText(el, TEXTS, 2)).toBe('end async');
+      done();
+    })();
+  });
 
 });
 
