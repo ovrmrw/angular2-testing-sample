@@ -6,7 +6,7 @@ declare var Zone: any;
  */
 import assert from 'power-assert';
 import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { setTimeoutPromise, observableValue } from '../../../test';
+import { setTimeoutPromise, observableValue, asyncPower } from '../../../test';
 
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
@@ -22,29 +22,23 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   }));
 
 
-  it('can create', (done) => {
-    (async () => {
-      assert(!!service);
-      done();
-    })().catch(e => done.fail(e));
-  });
+  it('can create', asyncPower(async () => {
+    assert(!!service);
+  }));
 
 
   // このテストはfakeAsyncテストでは通らない。asyncテストでもsetTimeoutしないと通らない。
   // ServiceからsetInterval(Observable.timer)を取り除けばこんなややこしいことをしなくてもテストが通る。
-  it('counter value must be increment correctly', (done) => {
-    (async () => {
-      await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
-      assert(observableValue(service.counter$) === 0);
-      service.increment(1);
-      assert(observableValue(service.counter$) === 1);
-      service.increment(1);
-      assert(observableValue(service.counter$) === 2);
-      service.increment(2);
-      assert(observableValue(service.counter$) === 4);
-      done();
-    })().catch(e => done.fail(e));
-  });
+  it('counter value must be increment correctly', asyncPower(async () => {
+    await setTimeoutPromise(0, true); // setTimeoutしてzoneのfirst turnから抜けた状態じゃないと下記のテストは通らない。
+    assert(observableValue(service.counter$) === 0);
+    service.increment(1);
+    assert(observableValue(service.counter$) === 1);
+    service.increment(1);
+    assert(observableValue(service.counter$) === 2);
+    service.increment(2);
+    assert(observableValue(service.counter$) === 4);
+  }));
 
 
   // らこさんエディション
@@ -78,3 +72,6 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   //   console.log(value);
   // }));
 });
+
+
+

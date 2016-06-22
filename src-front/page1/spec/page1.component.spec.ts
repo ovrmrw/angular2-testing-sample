@@ -11,7 +11,7 @@ import assert from 'power-assert';
 import lodash from 'lodash';
 import { describe, it, iit, xit, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
-import { elements, elementText, setTimeoutPromise } from '../../../test';
+import { elements, elementText, setTimeoutPromise, asyncPower } from '../../../test';
 declare var Zone: any;
 
 // オリジナルのfakeAsyncだとsetIntervalが元々走っているComponent(Service)をまともにテストできないので少し改造した。
@@ -28,92 +28,77 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   }));
 
 
-  it('can create', (done) => {
-    (async () => {
-      const fixture = await builder.createAsync(Page1Component);
-      assert(!!fixture);
-      done();
-    })().catch(e => done.fail(e));
-  });
+  it('can create', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component);
+    assert(!!fixture);
+  }));
 
 
-  it('should have text: "page1 content."', (done) => {
-    (async () => {
-      const fixture = await builder.createAsync(Page1Component);
-      const el = fixture.nativeElement as HTMLElement;
-      const CONTENT = 'h4';
+  it('should have text: "page1 content."', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component);
+    const el = fixture.nativeElement as HTMLElement;
+    const CONTENT = 'h4';
 
-      // expect(elementText(el, CONTENT)).toBe('');
-      assert(elementText(el, CONTENT) === '');
-      fixture.detectChanges();
-      // expect(elementText(el, CONTENT)).toBe('page1 content.');
-      assert(elementText(el, CONTENT) === 'page1 content.');
-      done();
-    })().catch(e => done.fail(e));
-  });
+    // expect(elementText(el, CONTENT)).toBe('');
+    assert(elementText(el, CONTENT) === '');
+    fixture.detectChanges();
+    // expect(elementText(el, CONTENT)).toBe('page1 content.');
+    assert(elementText(el, CONTENT) === 'page1 content.');
+  }));
 
 
-  it('counter should have number: "0"', (done) => {
-    (async () => {
-      const fixture = await builder.createAsync(Page1Component);
-      const el = fixture.nativeElement as HTMLElement;
-      const COUNTER = 'h2';
+  it('counter should have number: "0"', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component);
+    const el = fixture.nativeElement as HTMLElement;
+    const COUNTER = 'h2';
 
-      // expect(elementText(el, COUNTER)).toBe('');
-      assert(elementText(el, COUNTER) === '');
-      fixture.detectChanges();
-      // expect(elementText(el, COUNTER)).toBe('0');
-      assert(elementText(el, COUNTER) === '0');
-      done();
-    })().catch(e => done.fail(e));
-  });
+    // expect(elementText(el, COUNTER)).toBe('');
+    assert(elementText(el, COUNTER) === '');
+    fixture.detectChanges();
+    // expect(elementText(el, COUNTER)).toBe('0');
+    assert(elementText(el, COUNTER) === '0');
+  }));
 
 
-  it('counter should be incremented correctly', (done) => {
-    (async () => {
-      const fixture = await builder.createAsync(Page1Component);
-      const component = fixture.componentRef.instance;
-      const el = fixture.nativeElement as HTMLElement;
-      const INCREMENT = '#btnIncrement';
-      const COUNTER = 'h2';
+  it('counter should be incremented correctly', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component);
+    const component = fixture.componentRef.instance;
+    const el = fixture.nativeElement as HTMLElement;
+    const INCREMENT = '#btnIncrement';
+    const COUNTER = 'h2';
 
-      assert(elementText(el, COUNTER) === '');
-      fixture.detectChanges();
-      assert(elementText(el, COUNTER) === '0');
+    assert(elementText(el, COUNTER) === '');
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '0');
 
-      (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
-      fixture.detectChanges();
-      assert(elementText(el, COUNTER) === '1');
+    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '1');
 
-      (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
-      fixture.detectChanges();
-      assert(elementText(el, COUNTER) === '2');
-      done();
-    })().catch(e => done.fail(e));
-  });
+    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '2');
+  }));
 
 
-  it('texts should be shown delayed via async function', (done) => {
-    (async () => {
-      const fixture = await builder.createAsync(Page1Component) as ComponentFixture<Page1Component>;
-      const el = fixture.nativeElement as HTMLElement;
-      const TEXTS = 'ul li';
+  it('texts should be shown delayed via async function', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component) as ComponentFixture<Page1Component>;
+    const el = fixture.nativeElement as HTMLElement;
+    const TEXTS = 'ul li';
 
-      fixture.detectChanges();
-      // expect(elements(el, TEXTS).length).toBe(1);
-      // expect(elementText(el, TEXTS, 0)).toBe('start async');
-      assert(elements(el, TEXTS).length === 1);
-      assert(elementText(el, TEXTS, 0) === 'start async');
+    fixture.detectChanges();
+    // expect(elements(el, TEXTS).length).toBe(1);
+    // expect(elementText(el, TEXTS, 0)).toBe('start async');
+    assert(elements(el, TEXTS).length === 1);
+    assert(elementText(el, TEXTS, 0) === 'start async');
 
-      await setTimeoutPromise(1000);
-      fixture.detectChanges();
-      // expect(elements(el, TEXTS).length).toBe(3);
-      // expect(elementText(el, TEXTS, 2)).toBe('end async');
-      assert(elements(el, TEXTS).length === 3);
-      assert(elementText(el, TEXTS, 2) === 'end async');
-      done();
-    })().catch(e => done.fail(e));
-  });
+    await setTimeoutPromise(1000);
+    fixture.detectChanges();
+    // expect(elements(el, TEXTS).length).toBe(3);
+    // expect(elementText(el, TEXTS, 2)).toBe('end async');
+    assert(elements(el, TEXTS).length === 3);
+    assert(elementText(el, TEXTS, 2) === 'end async');
+  }));
 
 
   afterEach(() => {

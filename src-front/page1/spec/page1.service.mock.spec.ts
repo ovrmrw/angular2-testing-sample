@@ -17,7 +17,7 @@ export class Page1ServiceMock {
  */
 import assert from 'power-assert';
 import { describe, it, iit, xit, async, expect, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { setTimeoutPromise } from '../../../test';
+import { setTimeoutPromise, asyncPower } from '../../../test';
 
 describe('Mock of Page1Service test', () => {
   let service: Page1Service;
@@ -32,22 +32,19 @@ describe('Mock of Page1Service test', () => {
   }));
 
 
-  it('counter values are the same correctly between service and mock.', (done) => {
-    (async () => {
-      let serviceValue: number;
-      service.counter$.subscribe(counter => serviceValue = counter);
+  it('counter values are the same correctly between service and mock.', asyncPower(async () => {
+    let serviceValue: number;
+    service.counter$.subscribe(counter => serviceValue = counter);
 
-      await setTimeoutPromise(0, true);
-      // setTimeout(() => {        
-      service.increment(1);
-      mockService.increment(1);
-      mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
-      service.increment(2);
-      mockService.increment(2);
-      mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
-      // }, 0);
-      done();
-    })().catch(e => done.fail(e));
-  });
+    await setTimeoutPromise(0, true);
+    // setTimeout(() => {        
+    service.increment(1);
+    mockService.increment(1);
+    mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
+    service.increment(2);
+    mockService.increment(2);
+    mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
+    // }, 0);
+  }));
 
 });
