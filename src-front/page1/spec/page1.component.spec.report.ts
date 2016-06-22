@@ -12,7 +12,7 @@ import { describe, xdescribe, it, xit, async, expect, beforeEach, beforeEachProv
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
 
 
-describe('* * * * * Report for Mr.Wada * * * * *', () => {
+describe('* * * * * Report to @t_Wada * * * * *', () => {
   let builder: TestComponentBuilder;
 
   beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
@@ -64,7 +64,8 @@ describe('* * * * * Report for Mr.Wada * * * * *', () => {
   　元々Angular2はJasmineでテストされることを想定していますのでPower-assertを正常に動作させることはできないのかもしれませんが…
   */
 
-  it('3) should fail with stopping on error point... but that won\'t!!!', (done) => {
+  // change "xit" to "it" to run test
+  xit('3) should fail with stopping on error point... but that won\'t!!!', (done) => {
     // Not inside AsyncTestZoneSpec
     builder.createAsync(Page1Component)
       .then(fixture => {
@@ -78,8 +79,8 @@ describe('* * * * * Report for Mr.Wada * * * * *', () => {
       });
   });
 
-
-  it('4) should fail with stopping on error point.', async(() => {
+  // change "xit" to "it" to run test
+  xit('4) should fail with stopping on error point.', async(() => {
     // Inside AsyncTestZoneSpec
     builder.createAsync(Page1Component)
       .then(fixture => {

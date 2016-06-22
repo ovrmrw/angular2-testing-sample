@@ -22,9 +22,12 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   }));
 
 
-  it('can create', async(() => {
-    assert(!!service);
-  }));
+  it('can create', (done) => {
+    (async () => {
+      assert(!!service);
+      done();
+    })().catch(e => done.fail(e));
+  });
 
 
   // このテストはfakeAsyncテストでは通らない。asyncテストでもsetTimeoutしないと通らない。

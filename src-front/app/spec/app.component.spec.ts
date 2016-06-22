@@ -18,15 +18,16 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
   }));
 
 
-  it('can create', async(() => {
+  it('can create', (done) => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent);
       assert(!!fixture);
-    })();
-  }));
+      done();
+    })().catch(e => done.fail(e));
+  });
 
 
-  it('should have text: "top component"', async(() => {
+  it('should have text: "top component"', (done) => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent) as ComponentFixture<AppComponent>;
       const el = fixture.nativeElement as HTMLElement;
@@ -34,11 +35,12 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
       assert(elementText(el, 'h3') === '');
       fixture.autoDetectChanges();
       assert(elementText(el, 'h3') === 'top component');
-    })();
-  }));
+      done();
+    })().catch(e => done.fail(e));
+  });
 
 
-  it('title should be changed', async(() => {
+  it('title should be changed', (done) => {
     (async () => {
       const fixture = await builder.createAsync(AppComponent) as ComponentFixture<AppComponent>;
       const component = fixture.componentRef.instance;
@@ -48,6 +50,8 @@ describe('AppComponent test ' + '-'.repeat(40), () => {
 
       fixture.detectChanges();
       assert(elementText(el, 'h3') === 'changed');
-    })();
-  }));
+      done();
+    })().catch(e => done.fail(e));
+  });
+
 });

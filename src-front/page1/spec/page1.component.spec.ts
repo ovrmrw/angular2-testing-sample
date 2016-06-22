@@ -2,7 +2,7 @@ import { provide } from '@angular/core';
 import { Page1Component } from '../page1.component';
 import { Page1Service } from '../page1.service';
 import { Page1ServiceMock } from './page1.service.mock.spec';
-
+declare var jasmine: any;
 
 /**
  *  ===== testing world =====
@@ -59,9 +59,11 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
       const el = fixture.nativeElement as HTMLElement;
       const COUNTER = 'h2';
 
-      expect(elementText(el, COUNTER)).toBe('');
+      // expect(elementText(el, COUNTER)).toBe('');
+      assert(elementText(el, COUNTER) === '');
       fixture.detectChanges();
-      expect(elementText(el, COUNTER)).toBe('0');
+      // expect(elementText(el, COUNTER)).toBe('0');
+      assert(elementText(el, COUNTER) === '0');
       done();
     })().catch(e => done.fail(e));
   });
@@ -93,20 +95,31 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
 
   it('texts should be shown delayed via async function', (done) => {
     (async () => {
-      const fixture = await builder.createAsync(Page1Component);
+      const fixture = await builder.createAsync(Page1Component) as ComponentFixture<Page1Component>;
       const el = fixture.nativeElement as HTMLElement;
       const TEXTS = 'ul li';
 
       fixture.detectChanges();
-      expect(elements(el, TEXTS).length).toBe(1);
-      expect(elementText(el, TEXTS, 0)).toBe('start async');
+      // expect(elements(el, TEXTS).length).toBe(1);
+      // expect(elementText(el, TEXTS, 0)).toBe('start async');
+      assert(elements(el, TEXTS).length === 1);
+      assert(elementText(el, TEXTS, 0) === 'start async');
 
       await setTimeoutPromise(1000);
       fixture.detectChanges();
-      expect(elements(el, TEXTS).length).toBe(3);
-      expect(elementText(el, TEXTS, 2)).toBe('end async');
+      // expect(elements(el, TEXTS).length).toBe(3);
+      // expect(elementText(el, TEXTS, 2)).toBe('end async');
+      assert(elements(el, TEXTS).length === 3);
+      assert(elementText(el, TEXTS, 2) === 'end async');
       done();
     })().catch(e => done.fail(e));
+  });
+
+
+  afterEach(() => {
+    try {
+      jasmine.clock().uninstall();
+    } catch (e) { }
   });
 
 });
