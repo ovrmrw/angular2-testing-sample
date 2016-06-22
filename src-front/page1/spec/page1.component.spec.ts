@@ -108,5 +108,3 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   });
 
 });
-
-

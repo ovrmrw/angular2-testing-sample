@@ -39,9 +39,9 @@ export function asyncForPowerAssert(asyncFunc: any, done: any): Promise<any> {
 }
 
 
-export function asyncPower(asyncFunction: any): Function {
-  return (done) => {
-    return asyncFunction()
+export function asyncPower(asyncFunction: () => Promise<void>): Function {
+  return function (done) {
+    asyncFunction()
       .then(() => done())
       .catch(e => done.fail(e.message));
   }
