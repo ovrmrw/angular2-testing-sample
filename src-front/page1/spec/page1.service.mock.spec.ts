@@ -33,18 +33,16 @@ describe('Mock of Page1Service test', () => {
 
 
   it('counter values are the same correctly between service and mock.', asyncPower(async () => {
+    await setTimeoutPromise(0, true);
     let serviceValue: number;
     service.counter$.subscribe(counter => serviceValue = counter);
 
-    await setTimeoutPromise(0, true);
-    // setTimeout(() => {        
     service.increment(1);
     mockService.increment(1);
     mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
     service.increment(2);
     mockService.increment(2);
     mockService.counter$.subscribe(mockValue => assert(mockValue === serviceValue));
-    // }, 0);
   }));
 
 });
