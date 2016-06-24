@@ -93,7 +93,7 @@ function clearPendingTimers(): void {
  * {@example testing/ts/fake_async.ts region='basic'}
  *
  */
-export function tick(millis: number = 0): void {
+export function ticker(millis: number = 0): void {
   _getFakeAsyncZoneSpec().tick(millis);
 }
 

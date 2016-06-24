@@ -7,7 +7,7 @@ const initTimeNow = lodash.now();
 
 @Injectable()
 export class Page1Service {
-  private inCounter$ = new Subject<number>();
+  inCounter$ = new Subject<number>();
   private outCounter$ = new BehaviorSubject<number>(initCounter);
   private outTimeNow$ = new BehaviorSubject<number>(initTimeNow);
 

@@ -46,10 +46,11 @@ export function asyncPower(asyncFunction: () => Promise<void>): Function {
 export function fakeAsyncPower(functionWithTicks: () => void): Function {
   return function (done) {
     let FakeAsyncTestZoneSpec = Zone['FakeAsyncTestZoneSpec'];
-    let testZoneSpec = new FakeAsyncTestZoneSpec('fakeAsyncPower');
+    let testZoneSpec = new FakeAsyncTestZoneSpec('test');
     Zone.current
       .fork(testZoneSpec)
       .fork({
+        'name': 'fakeAsyncPower',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
           done.fail(error);
         }

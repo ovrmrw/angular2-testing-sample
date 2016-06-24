@@ -7,7 +7,7 @@ import { Page1Service } from '../page1.service';
  */
 import assert from 'power-assert';
 import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { setTimeoutPromise, observableValue, asyncPower, fakeAsyncPower, tick } from '../../../test';
+import { setTimeoutPromise, observableValue, asyncPower, fakeAsyncPower, tick, fakeAsync, ticker } from '../../../test';
 
 
 describe('Page1Service test ' + '-'.repeat(40), () => {
@@ -58,33 +58,40 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
   }));
 
 
-  iit('exprimental', asyncPower(async () => {
-    let value: number;
+  iit('exprimental', fakeAsync(() => {
+    setTimeout(() => { }, 1000 * 10);
+    let valueList: number[] = [];
+    console.log(Zone.current.name);
+    console.log(Zone.current.parent.name);
+    const zone = Zone.current.fork({ name: 'second zone' });
+    // zone.run(() => {
+    // zone.runGuarded(() => {
+      service.counter$.subscribe(counter => valueList.push(counter), err => console.log(err), () => console.log('complete'));
+      // service.increment(1);
+      // service.increment(1);
+      service.inCounter$.next(1);
+      service.inCounter$.next(1);
+      service.increment(1);
+      service.increment(1);
+    // });
+    // });
+    ticker();
 
-    console.log(1);
-    console.log(2);
-
-    // setTimeout(function () {
-
-    // }, 1000 * 5);
-    console.log(service);
-
-    service.counter$.do(counter => value = counter).subscribe();
-
-    // setTimeout(function() {
-    service.increment(1);
-
-
-    // testZoneSpec.flushMicrotasks();
-    // testZoneSpec.tick(1000);
+    console.log(valueList);
 
     // assert(value === 1);
-    service.increment(1);
-    console.log(value);
+    // zone.run(() => {
+    new Promise(resolve => {
+      service.increment(1);
+      resolve();
+    });
+    // });
+    ticker();
+    console.log(valueList);
 
     // assert(value === 2);
     service.increment(2);
-    console.log(value);
+    console.log(valueList);
     // }, 0);
 
     // assert(value === 4);
@@ -103,8 +110,12 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
     // assert(elementText(el, TEXTS, 2) === 'end async');
     console.log(3);
 
-    await setTimeoutPromise(0);
-    assert(value === 4);
+    zone.runGuarded(() => {
+      setTimeout(() => {
+        assert.deepEqual(valueList, [0, 1, 2, 3, 4]);
+      }, 0);
+    });
+    ticker();
   }));
 
 

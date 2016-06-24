@@ -58,7 +58,7 @@ module.exports = function (config) {
     // * Firefox(ver47)だとiitで単独テストしようとしたときにまともに動作しなくなる(?)
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS'], // PhantomJS / Firefox / Chrome
+    browsers: ['Chrome'], // PhantomJS / Firefox / Chrome
 
 
     // Continuous Integration mode
