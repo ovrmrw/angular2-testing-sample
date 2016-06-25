@@ -153,7 +153,7 @@ describe('Page1Service with Page1Component TEST ' + '-'.repeat(40), () => {
     await setTimeoutPromise(1000);
     fixture.detectChanges();
     let currentTimeText = elementText(el, '#now');
-    console.log([previousTimeText, currentTimeText]);
+    assert(previousTimeText !== currentTimeText);
   }));
 
 });
