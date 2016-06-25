@@ -16,7 +16,7 @@ module.exports = function (config) {
 
     // list of files / patterns to load in the browser
     files: [
-      './test/unittest.boot.ts'
+      './test/testing.boot.ts'
     ],
 
 
@@ -27,7 +27,7 @@ module.exports = function (config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      './test/unittest.boot.ts': ['webpack', 'sourcemap']
+      './test/testing.boot.ts': ['webpack', 'sourcemap']
     },
 
 
@@ -73,7 +73,7 @@ module.exports = function (config) {
       // colors: {
       //   success: 'white'
       // },
-      output: 'autowatch',
+      // output: 'autowatch',
       divider: '/'
     },
 

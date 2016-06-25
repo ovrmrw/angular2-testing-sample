@@ -1,26 +1,37 @@
 declare var Zone: any;
 import { Page1Service } from '../page1.service';
+import { Page1Component } from '../page1.component';
 
 
 /**
  *  ===== testing world =====
  */
 import assert from 'power-assert';
+import lolex from 'lolex';
 import { describe, xdescribe, it, iit, async, expect, xit, beforeEach, beforeEachProviders, inject } from '@angular/core/testing';
-import { setTimeoutPromise, observableValue, asyncPower, fakeAsyncPower, tick, fakeAsync, ticker } from '../../../test';
+import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
+import { elementText, setTimeoutPromise, observableValue, asyncPower, fakeAsyncPower, tick, withPower } from '../../../test';
 
 
-describe('Page1Service test ' + '-'.repeat(40), () => {
+describe('Page1Service standalone TEST ' + '-'.repeat(40), () => {
   let service: Page1Service;
+  let clock: lolex.Clock;
 
   beforeEachProviders(() => [
     Page1Service,
   ]);
 
 
-  beforeEach(inject([Page1Service], _service => {
+  beforeEach(inject([Page1Service], (_service) => {
     service = _service;
   }));
+
+
+  afterEach(() => {
+    try {
+      clock.uninstall();
+    } catch (e) { }
+  });
 
 
   it('can create', asyncPower(async () => {
@@ -57,84 +68,92 @@ describe('Page1Service test ' + '-'.repeat(40), () => {
     }, 0);
   }));
 
-
-  iit('exprimental', fakeAsync(() => {
-    setTimeout(() => { }, 1000 * 10);
-    let valueList: number[] = [];
-    console.log(Zone.current.name);
-    console.log(Zone.current.parent.name);
-    const zone = Zone.current.fork({ name: 'second zone' });
-    // zone.run(() => {
-    // zone.runGuarded(() => {
-      service.counter$.subscribe(counter => valueList.push(counter), err => console.log(err), () => console.log('complete'));
-      // service.increment(1);
-      // service.increment(1);
-      service.inCounter$.next(1);
-      service.inCounter$.next(1);
-      service.increment(1);
-      service.increment(1);
-    // });
-    // });
-    ticker();
-
-    console.log(valueList);
-
-    // assert(value === 1);
-    // zone.run(() => {
-    new Promise(resolve => {
-      service.increment(1);
-      resolve();
+  it('exprimental 2', asyncPower(async () => {
+    await setTimeoutPromise(0, true);
+    let counter: number;
+    let currentTime: number;
+    let previousTime: number;
+    service.counter$.subscribe(value => counter = value);
+    service.timeNow$.subscribe(value => {
+      if (currentTime) {
+        previousTime = currentTime;
+      }
+      currentTime = value;
     });
-    // });
-    ticker();
-    console.log(valueList);
 
-    // assert(value === 2);
+    service.increment(1);
+    assert(counter === 1);
+    service.increment(1);
+    assert(counter === 2);
     service.increment(2);
-    console.log(valueList);
-    // }, 0);
+    assert(counter === 4);
 
-    // assert(value === 4);
-    // testZoneSpec.tick();
-    // const el = fixture.nativeElement as HTMLElement;
-    // const TEXTS = 'ul li';
-
-    // fixture.detectChanges();
-    // assert(elements(el, TEXTS).length === 1);
-    // assert(elementText(el, TEXTS, 0) === 'start async');
-
-    // testZoneSpec.tick(900);
-    // // await setTimeoutPromise(1000);
-    // fixture.detectChanges();
-    // assert(elements(el, TEXTS).length === 3);
-    // assert(elementText(el, TEXTS, 2) === 'end async');
-    console.log(3);
-
-    zone.runGuarded(() => {
-      setTimeout(() => {
-        assert.deepEqual(valueList, [0, 1, 2, 3, 4]);
-      }, 0);
-    });
-    ticker();
+    await setTimeoutPromise(1000);
+    console.log([previousTime, currentTime]);
+    assert(previousTime + 1000 <= currentTime);
   }));
 
-
-
-
-
-
-  // it('fakeAsync test', fakeAsync(() => {
-  //   let value = '';
-  //   setTimeout(() => value = 'done', 1000);
-  //   assert(value === '');
-  //   tick(500);
-  //   assert(value === '');
-  //   console.log(value);
-  //   tick(500);
-  //   assert(value !== '');
-  //   console.log(value);
-  // }));
 });
 
 
+describe('Page1Service with Page1Component TEST ' + '-'.repeat(40), () => {
+  let builder: TestComponentBuilder;
 
+  beforeEach(inject([TestComponentBuilder], (_tcb) => {
+    builder = _tcb;
+  }));
+
+
+  it('exprimental', fakeAsyncPower(() => {
+    let fixture: ComponentFixture<Page1Component>;
+    builder.createAsync(Page1Component).then(f => fixture = f);
+    tick();
+    const component = fixture.componentRef.instance;
+    const el = fixture.nativeElement as HTMLElement;
+    const service = component.service;
+
+    let counter: number;
+    let currentTime: number;
+    let previousTime: number;
+    service.counter$.subscribe(value => counter = value);
+    service.timeNow$.subscribe(value => {
+      if (currentTime) {
+        previousTime = currentTime;
+      }
+      currentTime = value;
+    });
+
+    service.increment(1);
+    assert(counter === 1);
+    service.increment(1);
+    assert(counter === 2);
+    service.increment(2);
+    assert(counter === 4);
+
+    fixture.detectChanges();
+    console.log(elementText(el, '#now'));
+    tick(1000);
+    fixture.detectChanges();
+    console.log(elementText(el, '#now'));
+  }));
+
+
+  it('exprimental 2', asyncPower(async () => {
+    const fixture = await builder.createAsync(Page1Component) as ComponentFixture<Page1Component>;
+    const component = fixture.componentRef.instance;
+    const el = fixture.nativeElement as HTMLElement;
+    const service = component.service;
+
+    let counter: number;
+    service.counter$.subscribe(value => counter = value);
+    service.timeNow$.subscribe();
+
+    fixture.detectChanges();
+    let previousTimeText = elementText(el, '#now');
+    await setTimeoutPromise(1000);
+    fixture.detectChanges();
+    let currentTimeText = elementText(el, '#now');
+    console.log([previousTimeText, currentTimeText]);
+  }));
+
+});

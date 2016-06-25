@@ -23,9 +23,10 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   let builder: TestComponentBuilder;
 
   beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    builder = tcb.overrideProviders(Page1Component, [
-      provide(Page1Service, { useClass: Page1ServiceMock })
-    ]);
+    // builder = tcb.overrideProviders(Page1Component, [
+    //   provide(Page1Service, { useClass: Page1ServiceMock })
+    // ]);
+    builder = tcb;
   }));
 
 
@@ -57,8 +58,30 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
   }));
 
 
-  it('counter should be incremented correctly', asyncPower(async () => {
+  xit('counter should be incremented correctly', asyncPower(async () => {
     const fixture = await builder.createAsync(Page1Component);
+    const component = fixture.componentRef.instance;
+    const el = fixture.nativeElement as HTMLElement;
+    const INCREMENT = '#btnIncrement';
+    const COUNTER = 'h2';
+
+    assert(elementText(el, COUNTER) === '');
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '0');
+
+    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '1');
+
+    (<HTMLButtonElement>el.querySelector(INCREMENT)).click(); // component.increment();
+    fixture.detectChanges();
+    assert(elementText(el, COUNTER) === '2');
+  }));
+
+  it('counter should be incremented correctly', fakeAsyncPower(() => {
+    let fixture;
+    builder.createAsync(Page1Component).then(f => fixture = f);
+    tick();
     const component = fixture.componentRef.instance;
     const el = fixture.nativeElement as HTMLElement;
     const INCREMENT = '#btnIncrement';

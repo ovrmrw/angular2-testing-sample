@@ -33,17 +33,25 @@ export function observableValue<T>(obs: Observable<T>): T {
 }
 
 
-
-export function asyncPower(asyncFunction: () => Promise<void>): Function {
-  return function (done) {
-    asyncFunction()
-      .then(() => done())
-      .catch(e => done.fail(e.message));
+export function withPower(done: any, functionMayHaveError: () => void): void {
+  try {
+    functionMayHaveError.call(null);
+  } catch (e) {
+    if (done) { done.fail(e.message ? e.message : e); }
   }
 }
 
 
-export function fakeAsyncPower(functionWithTicks: () => void): Function {
+export function asyncPower(asyncAwaitFunction: () => Promise<void>): Function {
+  return function (done) {
+    asyncAwaitFunction.call(null)
+      .then(() => done())
+      .catch(e => done.fail(e.message ? e.message : e));
+  }
+}
+
+
+export function fakeAsyncPower(functionWithTicks: Function): Function {
   return function (done) {
     let FakeAsyncTestZoneSpec = Zone['FakeAsyncTestZoneSpec'];
     let testZoneSpec = new FakeAsyncTestZoneSpec('test');
@@ -52,7 +60,7 @@ export function fakeAsyncPower(functionWithTicks: () => void): Function {
       .fork({
         'name': 'fakeAsyncPower',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-          done.fail(error);
+          done.fail(error.message ? error.message : error);
         }
       })
       .runGuarded(functionWithTicks);
@@ -64,13 +72,3 @@ export function fakeAsyncPower(functionWithTicks: () => void): Function {
 export function tick(ms: number = 0): void {
   Zone.current.get('FakeAsyncTestZoneSpec').tick(ms);
 }
-
-// export function asyncPower2(asyncFunction: () => Promise<void>) {
-//   return Zone.current.fork({}).runGurded(() => {
-//     (function (done) {
-//       asyncFunction()
-//         .then(() => done())
-//         .catch(e => done.fail(e.message));
-//     })();
-//   });
-// }

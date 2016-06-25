@@ -18,7 +18,7 @@ module.exports = [
     entry: ['./test/testing.boot.ts'],
     output: {
       path: 'bundles',
-      filename: 'webpack.bundle.spec.espowered.js'
+      filename: 'webpack.bundle.spec.espowered.js',
     },
     resolve: {
       extensions: ['', '.ts', '.js']
