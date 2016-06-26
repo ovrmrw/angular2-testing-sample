@@ -35,18 +35,24 @@ export function observableValue<T>(obs: Observable<T>): T {
 
 export function withPower(done: any, functionMayHaveError: () => void): void {
   try {
-    functionMayHaveError.call(null);
+    functionMayHaveError.call(this);
   } catch (e) {
-    if (done) { done.fail(e.message ? e.message : e); }
+    if (done) {
+      const err = `Error in "${Zone.current.name} zone": `;
+      done.fail(e.message ? err + e.message : err + e);
+    }
   }
 }
 
 
 export function asyncPower(asyncAwaitFunction: () => Promise<void>): Function {
   return function (done) {
-    asyncAwaitFunction.call(null)
+    asyncAwaitFunction.call(this)
       .then(() => done())
-      .catch(e => done.fail(e.message ? e.message : e));
+      .catch(e => {
+        const err = `Error in "${Zone.current.name} zone": `;
+        done.fail(e.message ? err + e.message : err + e);
+      });
   }
 }
 
@@ -54,13 +60,14 @@ export function asyncPower(asyncAwaitFunction: () => Promise<void>): Function {
 export function fakeAsyncPower(functionWithTicks: Function): Function {
   return function (done) {
     let FakeAsyncTestZoneSpec = Zone['FakeAsyncTestZoneSpec'];
-    let testZoneSpec = new FakeAsyncTestZoneSpec('test');
+    let testZoneSpec = new FakeAsyncTestZoneSpec();
     Zone.current
       .fork(testZoneSpec)
       .fork({
-        'name': 'fakeAsyncPower',
+        'name': 'fakeAsyncPower test',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-          done.fail(error.message ? error.message : error);
+          const err = `Error in "${Zone.current.name} zone": `;
+          done.fail(error.message ? err + error.message : err + error);
         }
       })
       .runGuarded(functionWithTicks);
