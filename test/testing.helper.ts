@@ -38,7 +38,7 @@ export function withPower(done: any, functionMayHaveError: () => void): void {
     .fork({
       'name': 'withPower test',
       'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-        const err = `Error in "${Zone.current.name} zone":`;
+        const err = `Error in "${Zone.current.name} zone": `;
         done.fail(error.message ? err + error.message : err + error);
       }
     })
@@ -54,7 +54,7 @@ export function asyncPower(asyncAwaitFunction: () => Promise<void>): Function {
       .fork({
         'name': 'asyncPower test',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-          const err = `Error in "${Zone.current.name} zone":`;
+          const err = `Error in "${Zone.current.name} zone": `;
           done.fail(error.message ? err + error.message : err + error);
         }
       })
@@ -74,7 +74,7 @@ export function fakeAsyncPower(functionWithTicks: () => void): Function {
       .fork({
         'name': 'fakeAsyncPower test',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-          const err = `Error in "${Zone.current.name} zone":`;
+          const err = `Error in "${Zone.current.name} zone": `;
           done.fail(error.message ? err + error.message : err + error);
         }
       })

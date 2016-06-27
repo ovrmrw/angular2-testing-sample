@@ -1,6 +1,9 @@
 import { Observable, Subject, TestScheduler } from 'rxjs/Rx';
 import assert from 'assert';
-import { counterObservable, timerObservable } from '../../src-front/page1/page1.service';
+import { counterObservable, timerObservable } from '../page1.service';
+
+import { describe, it, iit, xit, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
+import { asyncPower } from '../../../test';
 
 
 describe('Observable', () => {
@@ -31,20 +34,11 @@ describe('Observable', () => {
   });
 
 
-  it('counterObservable', () => {
-    const source = hot<number>('^a-b-c---d', { a: 0, b: 1, c: 1, d: 2 });
-    const marbles = '-a-b-c---d';
-    const values = { a: 0, b: 1, c: 2, d: 4 };
+  iit('counterObservable', () => {    
+    const source = hot<number>('^--a-b-c', { a: 1, b: 1, c: 2 });
+    const marbles = '---a-b-c';
+    const values = { a: 1, b: 2, c: 5 };
     ts.expectObservable(counterObservable(source)).toBe(marbles, values);
-    ts.flush();
-  });
-
-
-  it('timerObservable', () => {
-    // const source = cold<number>('----');
-    const marbles = 'a-b-c-(d|';
-    const values = { a: 0, b: 1, c: 2, d: 3 };
-    ts.expectObservable(timerObservable(0, 20, ts).take(4)).toBe(marbles, values);
     ts.flush();
   });
 

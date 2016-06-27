@@ -23,8 +23,10 @@
     "nightwatch:w": "concurrently -k \"npm run ls:e2e\" \"gulp nightwatch:w\" ",
     "test": "npm run karma && npm run nightwatch",
     "test:w": "concurrently -k \"npm run karma:w\" \"npm run nightwatch:w\" ",
-    "mocha:rxjs": "gulp mocha:rxjs",
-    "mocha:rxjs:w": "gulp mocha:rxjs:w"
+    "build:rxjs": "webpack --config test-rxjs/webpack.config.test.js",
+    "build:rxjs:w": "webpack --config test-rxjs/webpack.config.test.js --watch",
+    "mocha:rxjs": "npm run build:rxjs && mocha bundles/webpack.bundle.spec.rxjs.js",
+    "mocha:rxjs:w": "npm run build:rxjs && concurrently -k \"npm run build:rxjs:w\" \"mocha --colors bundles/webpack.bundle.spec.rxjs.js --watch\" "
   },
   "repository": {
     "type": "git",

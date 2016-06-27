@@ -33,8 +33,8 @@ gulp.task('tsc:rxjs', () => {
     .pipe(gulp.dest('.'));
 });
 
-gulp.task('mocha:rxjs', ['tsc:rxjs'], () => {
-  gulp.src('test-rxjs/index.js', { read: false })
+gulp.task('mocha:rxjs', [], () => {
+  gulp.src('bundles/webpack.bundle.spec.rxjs.js', { read: false })
     .pipe(plumber())
     // gulp-mocha needs filepaths so you can't have any plugins before it 
     .pipe(mocha({
