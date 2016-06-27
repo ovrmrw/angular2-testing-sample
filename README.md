@@ -16,15 +16,17 @@ $ npm start
 
 ---
 
-###Test (unit test and e2e test simultaneously)
-```
-$ npm test (or) npm run test:w
-```
-
-###Test (individually)
+###Unit Test
 ```
 $ npm run karma (or) npm run karma:w
-or
+```
+
+###e2e Test
+```
 $ npm run nightwatch (or) npm run nightwatch:w
 ```
-"karma" for unit test. "nightwatch" for e2e test.
+
+###RxJS marble Test
+```
+$ npm run mocha:rxjs (or) npm run mocha:rxjs:w
+```
