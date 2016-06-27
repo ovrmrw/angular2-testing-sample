@@ -133,6 +133,10 @@ describe('Page1Component test ' + '-'.repeat(40), () => {
     fixture.detectChanges();
     assert(elements(el, TEXTS).length === 3);
     assert(elementText(el, TEXTS, 2) === 'end async');
+    setTimeout(() => {
+      assert(1 + 1 === 2);
+    }, 0);
+    tick(1);
   }));
 
 });

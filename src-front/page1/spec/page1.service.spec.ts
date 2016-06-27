@@ -159,28 +159,30 @@ describe('Page1Service with Page1Component TEST ' + '-'.repeat(40), () => {
 
 
   it('exprimental 3', (done) => {
-    builder.createAsync(Page1Component)
-      .then(fixture => {
-        const component = fixture.componentRef.instance;
-        const el = fixture.nativeElement as HTMLElement;
-        const service = component.service;
+    withPower(done, () => {
+      builder.createAsync(Page1Component)
+        .then(fixture => {
+          const component = fixture.componentRef.instance;
+          const el = fixture.nativeElement as HTMLElement;
+          const service = component.service;
 
-        let counter: number;
-        service.counter$.subscribe(value => counter = value);
-        service.timeNow$.subscribe();
+          let counter: number;
+          service.counter$.subscribe(value => counter = value);
+          service.timeNow$.subscribe();
 
-        fixture.detectChanges();
-        let previousTimeText = elementText(el, '#now');
-
-        setTimeout(withPower, 1000, done, () => {
           fixture.detectChanges();
-          let currentTimeText = elementText(el, '#now');
-          console.log([previousTimeText, currentTimeText]);
-          assert(previousTimeText !== currentTimeText);
-          assert(1 + 1 === 2);
-          done();
+          let previousTimeText = elementText(el, '#now');
+
+          setTimeout(() => {
+            fixture.detectChanges();
+            let currentTimeText = elementText(el, '#now');
+            console.log([previousTimeText, currentTimeText]);
+            assert(previousTimeText !== currentTimeText);
+            assert(1 + 1 === 2);
+            done();
+          }, 10);
         });
-      });
+    });
   });
 
 

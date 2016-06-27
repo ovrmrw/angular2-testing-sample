@@ -34,30 +34,38 @@ export function observableValue<T>(obs: Observable<T>): T {
 
 
 export function withPower(done: any, functionMayHaveError: () => void): void {
-  try {
-    functionMayHaveError.call(this);
-  } catch (e) {
-    if (done) {
-      const err = `Error in "${Zone.current.name} zone": `;
-      done.fail(e.message ? err + e.message : err + e);
-    }
-  }
+  Zone.current
+    .fork({
+      'name': 'withPower test',
+      'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
+        const err = `Error in "${Zone.current.name} zone":`;
+        done.fail(error.message ? err + error.message : err + error);
+      }
+    })
+    .runGuarded(() => {
+      functionMayHaveError.call(null);
+    });
 }
 
 
 export function asyncPower(asyncAwaitFunction: () => Promise<void>): Function {
   return function (done) {
-    asyncAwaitFunction.call(this)
-      .then(() => done())
-      .catch(e => {
-        const err = `Error in "${Zone.current.name} zone": `;
-        done.fail(e.message ? err + e.message : err + e);
+    Zone.current
+      .fork({
+        'name': 'asyncPower test',
+        'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
+          const err = `Error in "${Zone.current.name} zone":`;
+          done.fail(error.message ? err + error.message : err + error);
+        }
+      })
+      .runGuarded(() => {
+        asyncAwaitFunction.call(null).then(() => done());
       });
   }
 }
 
 
-export function fakeAsyncPower(functionWithTicks: Function): Function {
+export function fakeAsyncPower(functionWithTicks: () => void): Function {
   return function (done) {
     let FakeAsyncTestZoneSpec = Zone['FakeAsyncTestZoneSpec'];
     let testZoneSpec = new FakeAsyncTestZoneSpec();
@@ -66,12 +74,14 @@ export function fakeAsyncPower(functionWithTicks: Function): Function {
       .fork({
         'name': 'fakeAsyncPower test',
         'onHandleError': function (parentZoneDelegate, currentZone, targetZone, error) {
-          const err = `Error in "${Zone.current.name} zone": `;
+          const err = `Error in "${Zone.current.name} zone":`;
           done.fail(error.message ? err + error.message : err + error);
         }
       })
-      .runGuarded(functionWithTicks);
-    done();
+      .runGuarded(() => {
+        functionWithTicks.call(null);
+        done();
+      });
   }
 }
 
