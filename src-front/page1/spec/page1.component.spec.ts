@@ -1,4 +1,3 @@
-declare var Zone: any;
 import { provide } from '@angular/core';
 import { Page1Component } from '../page1.component';
 import { Page1Service } from '../page1.service';
@@ -8,11 +7,13 @@ import { Page1ServiceMock } from './page1.service.mock.spec';
 /**
  *  ===== testing world =====
  */
+/* >>> boilerplate */
 import assert from 'power-assert';
 import lodash from 'lodash';
-import { describe, it, iit, xit, expect, beforeEach, beforeEachProviders, inject, afterEach } from '@angular/core/testing';
+import { describe, it, iit, xit, beforeEach, beforeEachProviders, afterEach, inject } from '@angular/core/testing';
 import { TestComponentBuilder, ComponentFixture } from '@angular/compiler/testing';
-import { elements, elementText, setTimeoutPromise, asyncPower, fakeAsyncPower, tick } from '../../../test';
+import { asyncPower, fakeAsyncPower, tick, withPower, setTimeoutPromise, elements, elementText } from '../../../test';
+/* <<< boilerplate */
 
 
 // オリジナルのfakeAsyncだとsetIntervalが元々走っているComponent(Service)をまともにテストできないので少し改造した。
@@ -20,14 +21,13 @@ import { elements, elementText, setTimeoutPromise, asyncPower, fakeAsyncPower, t
 
 
 describe('Page1Component test ' + '-'.repeat(40), () => {
+  /* >>> boilerplate */
   let builder: TestComponentBuilder;
 
   beforeEach(inject([TestComponentBuilder], (tcb: TestComponentBuilder) => {
-    // builder = tcb.overrideProviders(Page1Component, [
-    //   provide(Page1Service, { useClass: Page1ServiceMock })
-    // ]);
     builder = tcb;
   }));
+  /* <<< boilerplate */
 
 
   it('can create', asyncPower(async () => {
