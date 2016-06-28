@@ -38,4 +38,4 @@ reports
 coverage
 .awcache
 screenshots
-test-rxjs/spec/*.js
+test-rxjs/spec/**/*.js

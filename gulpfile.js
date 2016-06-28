@@ -22,27 +22,30 @@ gulp.task('nightwatch:w', ['nightwatch'], () => {
 
 
 
-gulp.task('tsc:rxjs', () => {
-  const tsProject = ts.createProject('tsconfig.json', { noExternalResolve: true });
-  return tsProject.src()
-    .pipe(plumber())
-    .pipe(ignore.include(['{./,}test-rxjs/**/*.ts']))
-    // .pipe(ignore.exclude(['{./,}test-rxjs/spec/**/*.ts']))
-    .pipe(ts(tsProject))
-    .pipe(babel())
-    .pipe(gulp.dest('.'));
-});
+// gulp.task('tsc:rxjs', () => {
+//   const tsProject = ts.createProject('tsconfig.json', { noExternalResolve: true });
+//   return tsProject.src()
+//     .pipe(plumber())
+//     .pipe(ignore.include(['{./,}test-rxjs/**/*.ts']))
+//     // .pipe(ignore.exclude(['{./,}test-rxjs/spec/**/*.ts']))
+//     .pipe(ts(tsProject))
+//     .pipe(babel())
+//     .pipe(gulp.dest('.'));
+// });
+
+
+const rxjsSpecJS = '{./,}bundles/webpack.bundle.spec.rxjs.js';
 
 gulp.task('mocha:rxjs', [], () => {
-  gulp.src('bundles/webpack.bundle.spec.rxjs.js', { read: false })
+  gulp.src(rxjsSpecJS)
     .pipe(plumber())
     // gulp-mocha needs filepaths so you can't have any plugins before it 
     .pipe(mocha({
-      reporter: 'spec',
-      timeout: 5000
+      // useColors: true,
+      reporter: 'spec'
     }));
 });
 
 gulp.task('mocha:rxjs:w', ['mocha:rxjs'], () => {
-  gulp.watch(['{./,}test-rxjs/**/*.ts', '{./,}test-rxjs/index.js'], ['mocha:rxjs']);
+  gulp.watch([rxjsSpecJS], ['mocha:rxjs']);
 });

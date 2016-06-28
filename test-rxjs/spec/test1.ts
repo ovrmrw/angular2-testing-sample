@@ -1,6 +1,7 @@
 import { Observable, Subject, TestScheduler } from 'rxjs/Rx';
-import assert from 'assert';
-import { counterObservable, timerObservable } from '../../src-front/page1/page1.service';
+import { counterObservable, timerObservable, counterAndTimerObservable } from '../../src-front/page1/page1.service';
+import chai from 'chai';
+const assert = chai.assert;
 
 
 describe('Observable', () => {
@@ -18,10 +19,10 @@ describe('Observable', () => {
 
   it('should return correct observable', () => {
     const source = cold<number>('-a-b-c', { a: 1, b: 2, c: 3 });
-    const expected = '---b-c';
-    const expectedValues = { a: 10, b: 20, c: 30 };
-
-    ts.expectObservable(maptest(source)).toBe(expected, expectedValues);
+    const marbles = '---b-c';
+    const values = { a: 10, b: 20, c: 30 };
+    const test = maptest(source);
+    ts.expectObservable(test).toBe(marbles, values);
     ts.flush();
   });
 
@@ -35,16 +36,27 @@ describe('Observable', () => {
     const source = hot<number>('^a-b-c---d', { a: 0, b: 1, c: 1, d: 2 });
     const marbles = '-a-b-c---d';
     const values = { a: 0, b: 1, c: 2, d: 4 };
-    ts.expectObservable(counterObservable(source)).toBe(marbles, values);
+    const test = counterObservable(source);
+    ts.expectObservable(test).toBe(marbles, values);
     ts.flush();
   });
 
 
   it('timerObservable', () => {
-    // const source = cold<number>('----');
     const marbles = 'a-b-c-(d|';
     const values = { a: 0, b: 1, c: 2, d: 3 };
-    ts.expectObservable(timerObservable(0, 20, ts).take(4)).toBe(marbles, values);
+    const test = timerObservable(0, 20, ts).take(4);
+    ts.expectObservable(test).toBe(marbles, values);
+    ts.flush();
+  });
+
+
+  it('counterAndTimerObservable', () => {
+    const source = hot<number>('^a-|', { a: 9, b: 1, c: 1, d: 2 });
+    const marbles = '-a(b|';
+    const values = { a: [9, 0], b: [9, 0] };
+    const test = counterAndTimerObservable(source, 0, 1000, ts).take(3);
+    ts.expectObservable(test).toBe(marbles, values);
     ts.flush();
   });
 

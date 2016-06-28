@@ -40,6 +40,7 @@ export function counterObservable(subject: Subject<number>): Observable<number> 
       return p + value;
     }, 0)
   ];
+  
   return Observable
     .combineLatest(...watchingObservables)
     .map(values => values[0])
@@ -51,4 +52,20 @@ export function timerObservable(dueTime: number = 0, period: number = 1000, sche
   return Observable
     .timer(dueTime, period, scheduler)
     .do(value => console.log(value));
+}
+
+
+export function counterAndTimerObservable(subject: Subject<number>, dueTime: number = 0, period: number = 1000, scheduler: TestScheduler = null): Observable<number[]> {
+  const watchingObservables = [
+    subject.scan((p, value) => {
+      return p + value;
+    }, 0),
+
+    Observable.timer(dueTime, period, scheduler),
+  ];
+
+  return Observable
+    .combineLatest(...watchingObservables)
+    // .map(values => values[0])
+    .do(values => console.log(values));
 }

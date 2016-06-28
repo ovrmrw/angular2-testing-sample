@@ -7,10 +7,12 @@
     "sinon": "registry:npm/sinon#1.16.0+20160427193336"
   },
   "globalDependencies": {
+    "empower": "registry:dt/empower#0.0.0+20160317120654",
     "lolex": "registry:dt/lolex#1.2.1+20160316155526",
     "mocha": "registry:dt/mocha#2.2.5+20160619032855",
     "mocha-node": "registry:dt/mocha-node#2.2.5+20160317120654",
     "node": "registry:dt/node#4.0.0+20160501135006",
-    "power-assert": "registry:dt/power-assert#0.0.0+20160316155526"
+    "power-assert": "registry:dt/power-assert#0.0.0+20160316155526",
+    "power-assert-formatter": "registry:dt/power-assert-formatter#0.0.0+20160317120654"
   }
 }
